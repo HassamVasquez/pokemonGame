@@ -1,22 +1,16 @@
-import pygame,sys
+import pygame
 from pygame.locals import *
 import time
 import math
 import random
 import listado as l
 from functools import partial
+from definitions import colours as COLOURS
 pygame.init()
 
 game_width, game_height = 1000, 750
 size = (game_width, game_height)
 game_screen = pygame.display.set_mode(size)
-
-black = (0, 0, 0)
-gold = (218, 165, 32)
-grey = (200, 200, 200)
-green = (0, 200, 0)
-red = (200, 0, 0)
-white = (255, 255, 255)
 
 
 mov_plant = [{'name': 'Planta feroz', 'atack': 45},{'name': 'Latigo cepa', 'atack': 20},{'name': 'Hoja aguda ', 'atack': 30},{'name': 'Bomba germen ', 'atack': 10}]
@@ -65,14 +59,14 @@ class PokemonBattle(pygame.sprite.Sprite):
         bar_scale = 200 // self.max_hp
         for i in range(self.max_hp):
             bar = (self.hp_x + bar_scale * i, self.hp_y, bar_scale, 20)
-            pygame.draw.rect(game_screen, red, bar)
+            pygame.draw.rect(game_screen, COLOURS.RED, bar)
             
         for i in range(self.current_hp):
             bar = (self.hp_x + bar_scale * i, self.hp_y, bar_scale, 20)
-            pygame.draw.rect(game_screen, green, bar)
+            pygame.draw.rect(game_screen, COLOURS.GREEN, bar)
             
         font = pygame.font.Font(pygame.font.get_default_font(), 16)
-        text = font.render(f'HP: {self.current_hp} / {self.max_hp}', True, black)
+        text = font.render(f'HP: {self.current_hp} / {self.max_hp}', True, COLOURS.BLACK)
         text_rect = text.get_rect()
         text_rect.x = self.hp_x
         text_rect.y = self.hp_y + 30
@@ -145,10 +139,10 @@ def changeTamDisplay(x,y):
     pygame.display.set_caption('Pokemon Battle')
 
 def display_message(message):
-    pygame.draw.rect(game_screen, white, (10, 350, 480, 140))
-    pygame.draw.rect(game_screen, black, (10, 350, 480, 140), 3)
+    pygame.draw.rect(game_screen, COLOURS.WHITE, (10, 350, 480, 140))
+    pygame.draw.rect(game_screen, COLOURS.BLACK, (10, 350, 480, 140), 3)
     font = pygame.font.Font(pygame.font.get_default_font(), 20)
-    text = font.render(message, True, black)
+    text = font.render(message, True, COLOURS.BLACK)
     text_rect = text.get_rect()
     text_rect.x = 30
     text_rect.y = 410
@@ -167,7 +161,7 @@ def battle(pokes):
             if event.type == pygame.QUIT:
                 cD(800)
                 l.list_main()
-            game_screen.fill(white)
+            game_screen.fill(COLOURS.WHITE)
             if event.type == KEYDOWN:
 
                 if event.key == K_y:
@@ -223,7 +217,7 @@ def battle(pokes):
             rival_pokemon.y = -10
             alpha = 0
             while alpha < 255:
-                game_screen.fill(white)
+                game_screen.fill(COLOURS.WHITE)
                 rival_pokemon.draw(alpha)
                 display_message(f'El rival eligio a  {rival_pokemon.name}!')
                 alpha += .4
@@ -232,7 +226,7 @@ def battle(pokes):
             time.sleep(1)
             alpha = 0
             while alpha < 255:
-                game_screen.fill(white)
+                game_screen.fill(COLOURS.WHITE)
                 rival_pokemon.draw()
                 player_pokemon.draw(alpha)
                 display_message(f'Ve {player_pokemon.name}!')
@@ -259,7 +253,7 @@ def battle(pokes):
             fight_button = create_button(240, 140, 10, 350, 130, 412, 'Fight')
             potion_button = create_button(240, 140, 250, 350, 370, 412, f'Use Potion ({2})')
 
-            pygame.draw.rect(game_screen, black, (10, 350, 480, 140), 3)
+            pygame.draw.rect(game_screen, COLOURS.BLACK, (10, 350, 480, 140), 3)
             
             pygame.display.update()
 
@@ -279,7 +273,7 @@ def battle(pokes):
                 button = create_button(button_width, button_height, left, top, text_center_x, text_center_y, move['name'].capitalize())
                 move_buttons.append(button)
                 
-            pygame.draw.rect(game_screen, black, (10, 350, 480, 140), 3)
+            pygame.draw.rect(game_screen, COLOURS.BLACK, (10, 350, 480, 140), 3)
             
             pygame.display.update()
             
@@ -302,7 +296,7 @@ def battle(pokes):
             alpha = 255
             while alpha > 0:
                 
-                game_screen.fill(white)
+                game_screen.fill(COLOURS.WHITE)
                 player_pokemon.draw_hp()
                 rival_pokemon.draw_hp()
                 
@@ -327,7 +321,7 @@ def battle(pokes):
             display_message('Play again (Y/N)?')
 
 def drawBatlle(player_pokemon,rival_pokemon):
-    game_screen.fill(white)
+    game_screen.fill(COLOURS.WHITE)
     player_pokemon.draw()
     rival_pokemon.draw()
     player_pokemon.draw_hp()
@@ -341,12 +335,12 @@ def create_button(width, height, left, top, text_cx, text_cy, label):
     button = Rect(left, top, width, height)
 
     if button.collidepoint(mouse_cursor):
-        pygame.draw.rect(game_screen, gold, button)
+        pygame.draw.rect(game_screen, COLOURS.GOLD, button)
     else:
-        pygame.draw.rect(game_screen, white, button)
+        pygame.draw.rect(game_screen, COLOURS.WHITE, button)
         
     font = pygame.font.Font(pygame.font.get_default_font(), 16)
-    text = font.render(f'{label}', True, black)
+    text = font.render(f'{label}', True, COLOURS.BLACK)
     text_rect = text.get_rect(center=(text_cx, text_cy))
     game_screen.blit(text, text_rect)
     

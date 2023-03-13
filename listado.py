@@ -6,6 +6,7 @@ from pymonad.reader import Compose
 import combate as cb
 import filtros as filters
 import filters_functions as ffunctions
+from definitions import colours as COLOURS
 
 pygame.init()
 
@@ -14,7 +15,6 @@ game_width, game_height = 1000, 800
 size = (game_width, game_height)
 game_screen = pygame.display.set_mode(size)
 pygame.display.set_caption('Pokemon Battle')
-black,gold,grey,green,red,white = (0, 0, 0),(218, 165, 32),(200, 200, 200),(0, 200, 0),(200, 0, 0),(255, 255, 255)
 #back_image,next_image = pygame.image.load('back.jpg'),pygame.image.load('next.jpg').convert_alpha()
 
 
@@ -60,7 +60,7 @@ class Pokemon(pygame.sprite.Sprite):
 def display_mesage(message,x,y):
     #y cada 25 pixeles
     font = pygame.font.Font(pygame.font.get_default_font(), 15)
-    text = font.render(message, True, black)
+    text = font.render(message, True, COLOURS.BLACK)
     text_rect = text.get_rect()
     text_rect.x,text_rect.y = x, y
     game_screen.blit(text, text_rect)
@@ -109,7 +109,7 @@ def draw_contorno(pokemons):
     mouse_cursor = pygame.mouse.get_pos()
     for pokemon in pokemons:
         if pokemon.get_rect().collidepoint(mouse_cursor):
-            pygame.draw.rect(game_screen,black,pokemon.get_rect(),2)
+            pygame.draw.rect(game_screen,COLOURS.BLACK,pokemon.get_rect(),2)
     
     pygame.display.update()
 
@@ -119,12 +119,12 @@ def create_button(width, height, left, top, text_cx, text_cy, label):
     button = Rect(left, top, width, height)
     # highlight the button if mouse is pointing to it
     if button.collidepoint(mouse_cursor):
-        pygame.draw.rect(game_screen, gold, button)
+        pygame.draw.rect(game_screen, COLOURS.GOLD, button)
     else:
-        pygame.draw.rect(game_screen, white, button)
+        pygame.draw.rect(game_screen, COLOURS.WHITE, button)
     # add the label to the button
     font = pygame.font.Font(pygame.font.get_default_font(), 16)
-    text = font.render(f'{label}', True, black)
+    text = font.render(f'{label}', True, COLOURS.BLACK)
     text_rect = text.get_rect(center=(text_cx, text_cy))
     game_screen.blit(text, text_rect) 
     return button
@@ -145,7 +145,7 @@ def list_main(list_filters = []):
         
 
     while True:
-        game_screen.fill(white)
+        game_screen.fill(COLOURS.WHITE)
         next_button = create_button(140, 50, 837, 708, 900, 730,'Next')
         back_button = create_button(140, 50, 35, 708, 98, 730,'Back')
         filter_button = create_button(140, 50, 300, 708, 370, 730,'Filter')
