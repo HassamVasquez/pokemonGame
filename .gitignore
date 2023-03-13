@@ -1,4 +1,6 @@
-images/
+images/*
+!images/buttons/
+
 pokemon/
 pokemon_jpg/
 __pycache__/

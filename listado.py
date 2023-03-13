@@ -7,6 +7,7 @@ import combate as cb
 import filtros as filters
 import filters_functions as ffunctions
 from definitions import colours as COLOURS
+from classes.button import Button
 
 pygame.init()
 
@@ -17,6 +18,15 @@ game_screen = pygame.display.set_mode(size)
 pygame.display.set_caption('Pokemon Battle')
 #back_image,next_image = pygame.image.load('back.jpg'),pygame.image.load('next.jpg').convert_alpha()
 
+# Load button images
+back_image = pygame.image.load('images/buttons/back_button.png').convert_alpha()
+next_image = pygame.image.load('images/buttons/next_button.png').convert_alpha()
+filter_image = pygame.image.load('images/buttons/filter_button.png').convert_alpha()
+
+# Create button instances
+back_button = Button(120, 720, back_image, 0.5, 1.06)
+next_button = Button(880, 720, next_image, 0.5, 1.06)
+filter_button = Button(510, 720, filter_image, 0.5, 1.06)
 
 
 class Pokemon(pygame.sprite.Sprite):
@@ -113,21 +123,6 @@ def draw_contorno(pokemons):
     
     pygame.display.update()
 
-def create_button(width, height, left, top, text_cx, text_cy, label):
-    # position of the mouse cursor
-    mouse_cursor = pygame.mouse.get_pos()
-    button = Rect(left, top, width, height)
-    # highlight the button if mouse is pointing to it
-    if button.collidepoint(mouse_cursor):
-        pygame.draw.rect(game_screen, COLOURS.GOLD, button)
-    else:
-        pygame.draw.rect(game_screen, COLOURS.WHITE, button)
-    # add the label to the button
-    font = pygame.font.Font(pygame.font.get_default_font(), 16)
-    text = font.render(f'{label}', True, COLOURS.BLACK)
-    text_rect = text.get_rect(center=(text_cx, text_cy))
-    game_screen.blit(text, text_rect) 
-    return button
    
 def list_main(list_filters = []):
     pokemons_csv,pokemons_filter = [],[]
@@ -146,35 +141,38 @@ def list_main(list_filters = []):
 
     while True:
         game_screen.fill(COLOURS.WHITE)
-        next_button = create_button(140, 50, 837, 708, 900, 730,'Next')
-        back_button = create_button(140, 50, 35, 708, 98, 730,'Back')
-        filter_button = create_button(140, 50, 300, 708, 370, 730,'Filter')
 
+        # Back button action
+        if back_button.draw(game_screen):
+            if n > 12:
+                if  len(list_filters) != 0: 
+                    pokemons,n = divition_pokemons(n-24,pokemons_filter,band_filter)
+                else:
+                    pokemons,n = divition_pokemons(n-24,pokemons_csv,band_filter)
+
+        # Next button action
+        if next_button.draw(game_screen):
+            if pokemons:
+                if  len(list_filters) != 0: #aqui quite if  len(list_filters) != 0
+                    pokemons,n = divition_pokemons(n,pokemons_filter,band_filter)
+                else:
+                    pokemons,n = divition_pokemons(n,pokemons_csv,band_filter)
+
+        # Filter button action
+        if filter_button.draw(game_screen):
+            filters.show_filters()
+
+        # Event Handler
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
+
         
             if event.type == MOUSEBUTTONDOWN:
                 # coordinates of the mouse click
                 mouse_click = event.pos
-                if next_button.collidepoint(mouse_click):
-                    if pokemons:
-                        if  len(list_filters) != 0: #aqui quite if  len(list_filters) != 0
-                            pokemons,n = divition_pokemons(n,pokemons_filter,band_filter)
-                        else:
-                            pokemons,n = divition_pokemons(n,pokemons_csv,band_filter)
-                            
-                    
-                if back_button.collidepoint(mouse_click):
-                    if n > 12:
-                        if  len(list_filters) != 0: 
-                            pokemons,n = divition_pokemons(n-24,pokemons_filter,band_filter)
-                        else:
-                            pokemons,n = divition_pokemons(n-24,pokemons_csv,band_filter)
-                        
-                if filter_button.collidepoint(mouse_click):
-                    filters.show_filters()
+
                 for count,pokemon in enumerate(pokemons):
                     if pokemon.get_rect().collidepoint(mouse_click):
                         x = (random.randint(1, 12))
