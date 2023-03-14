@@ -1,5 +1,5 @@
 import pygame
-from classes.button import Button
+from classes.action_button import ActionButton
 import definitions.colours as COLOURS
 from classes.list_card import ListCard
 
@@ -18,9 +18,9 @@ font = pygame.font.SysFont('consolas', 60, bold=True)
 button_background = pygame.image.load('images/buttons/button_bg_green.png').convert_alpha()
 
 # Create button instances
-back_button = Button(300, 670, button_background, 'BACK', hover_scale=1.08)
-filter_button = Button(640, 670, button_background, 'FILTER', hover_scale=1.08)
-next_button = Button(980, 670, button_background, 'NEXT', hover_scale=1.08)
+back_button = ActionButton(300, 670, button_background, 'BACK', hover_scale=1.08)
+filter_button = ActionButton(640, 670, button_background, 'FILTER', hover_scale=1.08)
+next_button = ActionButton(980, 670, button_background, 'NEXT', hover_scale=1.08)
 
 # Create card
 card = ListCard(160, 160)
@@ -47,7 +47,8 @@ while running:
     game_screen.blit(title, (440, 20))
 
     # Back button action
-    back_button.draw(game_screen)
+    if back_button.draw(game_screen):
+        print('click back button')
 
     # Next button action
     next_button.draw(game_screen)
@@ -56,7 +57,8 @@ while running:
     filter_button.draw(game_screen)
 
     # Card
-    card.draw(game_screen)
+    if card.draw(game_screen):
+        print('click card 1')
     card2.draw(game_screen)
     card3.draw(game_screen)
     card4.draw(game_screen)

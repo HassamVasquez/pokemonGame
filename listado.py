@@ -7,7 +7,7 @@ import combate as cb
 import filtros as filters
 import filters_functions as ffunctions
 from definitions import colours as COLOURS
-from classes.button import Button
+from classes.action_button import ActionButton
 
 pygame.init()
 
@@ -21,9 +21,9 @@ pygame.display.set_caption('Pokemon Battle')
 button_background = pygame.image.load('images/buttons/button_bg_green.png').convert_alpha()
 
 # Create button instances
-back_button = Button(120, 720, button_background, 'BACK', hover_scale=1.06)
-next_button = Button(880, 720, button_background, 'NEXT', hover_scale=1.06)
-filter_button = Button(510, 720, button_background, 'FILTER', hover_scale=1.06)
+back_button = ActionButton(120, 720, button_background, 'BACK', hover_scale=1.06)
+next_button = ActionButton(880, 720, button_background, 'NEXT', hover_scale=1.06)
+filter_button = ActionButton(510, 720, button_background, 'FILTER', hover_scale=1.06)
 
 
 class Pokemon(pygame.sprite.Sprite):
