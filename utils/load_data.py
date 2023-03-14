@@ -1,33 +1,38 @@
-from os import listdir
 from csv import reader as csv_reader
+from operator import itemgetter
+from classes.pokemon import Pokemon
 
 
-def read_pokemons_data():
+def read_pokemons_data() -> list[dict]:
     result = []
     with open('pokemon.csv') as pokemon_csv:
         pokemons = csv_reader(pokemon_csv, delimiter = ',')
-        next(pokemons)
+        header = next(pokemons)
+        getId = itemgetter(header.index('#'))
+        getName = itemgetter(header.index('Name'))
+        getType1 = itemgetter(header.index('Type 1'))
+        getType2 = itemgetter(header.index('Type 2'))
+        getHP = itemgetter(header.index('HP'))
+        getAttack = itemgetter(header.index('Attack'))
+        getGeneration = itemgetter(header.index('Generation'))
+
         result = [{
-            'id': pokemon[0],
-            'name': pokemon[1],
-            'type_1': pokemon[2],
-            'type_2': pokemon[3],
-            'hp': pokemon[5],
-            'attack': pokemon[6],
-            'generation': pokemon[11]
+            'id': int(getId(pokemon)),
+            'name': getName(pokemon),
+            'type_1': getType1(pokemon),
+            'type_2': getType2(pokemon),
+            'hp': int(getHP(pokemon)),
+            'attack': int(getAttack(pokemon)),
+            'generation': int(getGeneration(pokemon))
         } for pokemon in pokemons]
 
     return result
 
-def load_pokemon_data():
-	# get images name list
-    pokemon_images_list = sorted(listdir('pokemon_jpg'), key=lambda x: int(x.split('.')[0]))
-
+def load_pokemon_data() -> list[Pokemon]:
 	# get info pokemon list
     pokemon_info_list = read_pokemons_data()
 
     # Create Pokemon objects list
+    pokemon_objects_list = [Pokemon(pokemon) for pokemon in pokemon_info_list]
 
-    return pokemon_info_list
-
-print(load_pokemon_data())
+    return pokemon_objects_list
