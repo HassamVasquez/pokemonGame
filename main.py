@@ -12,18 +12,20 @@ from utils.pagination import get_paged_card_list
 
 pygame.init()
 
-# LOGIC AND DATA VARIABLES
-
 # Create the game window
 window_size = (1280, 720)
 game_screen = pygame.display.set_mode(window_size)
 pygame.display.set_caption('Pokemon Battle')
+
+
+# LOGIC AND DATA VARIABLES
 
 # Get pokemon
 pokemon_list: list[Pokemon] = load_pokemon_data()
 
 # Pagination page
 page = 0
+total_pages = ceil(len(pokemon_list) / 12)
 
 
 # VISUAL ELEMENTS
@@ -56,16 +58,16 @@ while running:
     game_screen.blit(title, (440, 5))
 
     # Number Page
-    number_page = number_page_font.render(f'Page {page + 1} of {ceil(len(pokemon_list) / 12)} pages', True, COLOURS.BLACK)
+    number_page = number_page_font.render(f'Page {page + 1} of {total_pages} pages', True, COLOURS.BLACK)
     game_screen.blit(number_page, (480, 600))
 
     # Back button action
-    if back_button.draw(game_screen):
+    if back_button.draw(game_screen) and page > 0:
         page -= 1
         cards_list = get_paged_card_list(page, pokemon_list)
 
     # Next button action
-    if next_button.draw(game_screen):
+    if next_button.draw(game_screen) and page < total_pages - 1:
         page += 1
         cards_list = get_paged_card_list(page, pokemon_list)
 
