@@ -35,6 +35,9 @@ class ListCard():
                 self.hovered = False
                 pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
 
+        # Check if mouse is no clicked
+        if pygame.mouse.get_pressed()[0] == 0:
+            self.clicked = False
 
         # Draw card
         surface.blit(self.image, (self.rect.x, self.rect.y))
