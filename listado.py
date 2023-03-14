@@ -18,12 +18,12 @@ game_screen = pygame.display.set_mode(size)
 pygame.display.set_caption('Pokemon Battle')
 
 # Load button image
-button_background = pygame.image.load('images/buttons/button_bg.png').convert_alpha()
+button_background = pygame.image.load('images/buttons/button_bg_green.png').convert_alpha()
 
 # Create button instances
-back_button = Button(120, 720, button_background, 'BACK', 0.5, 1.06)
-next_button = Button(880, 720, button_background, 'NEXT', 0.5, 1.06)
-filter_button = Button(510, 720, button_background, 'FILTER', 0.5, 1.06)
+back_button = Button(120, 720, button_background, 'BACK', hover_scale=1.06)
+next_button = Button(880, 720, button_background, 'NEXT', hover_scale=1.06)
+filter_button = Button(510, 720, button_background, 'FILTER', hover_scale=1.06)
 
 
 class Pokemon(pygame.sprite.Sprite):
