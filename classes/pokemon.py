@@ -1,7 +1,11 @@
 
 
 class Pokemon():
-	def __init__(self, data: dict) -> None:
+
+	def __init__(self, data: dict = {}) -> None:
+		if data.get('id', 0) == 0:
+			return
+
 		self.id = data['id']
 		self.name = data['name']
 		self.type_1 = data['type_1']

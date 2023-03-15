@@ -37,7 +37,7 @@ class Button():
     def after_bg_drawing_action(self, surface: pygame.Surface):
         pass
 
-    def draw(self, surface: pygame.Surface) -> bool:
+    def draw(self, surface: pygame.Surface, disabled: bool = False) -> bool:
         action: bool = False
 
         # First Action
@@ -47,7 +47,7 @@ class Button():
         pos: tuple[int, int] = pygame.mouse.get_pos()
 
         # check mouseover (hover)
-        if self.rect.collidepoint(pos):
+        if self.rect.collidepoint(pos) and not disabled:
             self.hovered = True
             pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
             self.hovered_button_action()

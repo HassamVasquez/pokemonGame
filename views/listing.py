@@ -4,6 +4,7 @@ from math import ceil
 from classes.pokemon import Pokemon
 from classes.action_button import ActionButton
 from classes.list_card import ListCard
+from views.detail_card import DetailCard
 
 from utils.pagination import get_paged_card_list
 import definitions.colours as COLOURS
@@ -16,7 +17,8 @@ class ListingView():
         self.page = 0
         self.total_pages = ceil(len(pokemon_list) / 12)
 
-        # VISUAL ELEMENTS
+
+        # Text
 
         # Title
         title_font = pygame.font.SysFont('consolas', 60, bold=True)
@@ -24,6 +26,9 @@ class ListingView():
 
         # Number page
         self.number_page_font = pygame.font.SysFont('consolas', 26, bold=True)
+
+
+        # Buttons
 
         # Load button image
         button_background = pygame.image.load('images/buttons/button_bg_green.png').convert_alpha()
@@ -37,6 +42,13 @@ class ListingView():
         self.cards_list: list[ListCard] = get_paged_card_list(self.page, pokemon_list)
 
 
+        # Pokemon Details
+        self.pokemon_details: list[bool] = [False]
+        self.detail_card = DetailCard()
+
+        self.selected_pokemon: Pokemon = Pokemon()
+
+
     def loop(self, screen: pygame.Surface, pokemon_list: list[Pokemon], state: list[GameState]) -> None:
 
         # Title
@@ -46,23 +58,31 @@ class ListingView():
         number_page = self.number_page_font.render(f'Page {self.page + 1} of {self.total_pages} pages', True, COLOURS.BLACK)
         screen.blit(number_page, (990, 600))
 
+
         # Back button action
-        if self.back_button.draw(screen) and self.page > 0:
+        if self.back_button.draw(screen, self.pokemon_details[0]) and self.page > 0:
             self.page -= 1
             self.cards_list = get_paged_card_list(self.page, pokemon_list)
 
         # Next button action
-        if self.next_button.draw(screen) and self.page < self.total_pages - 1:
+        if self.next_button.draw(screen, self.pokemon_details[0]) and self.page < self.total_pages - 1:
             self.page += 1
             self.cards_list = get_paged_card_list(self.page, pokemon_list)
 
         # Filter button action
-        if self.filter_button.draw(screen):
+        if self.filter_button.draw(screen, self.pokemon_details[0]):
             state[0] = GameState.FILTERING
 
+
         # Pokemon paged list
-        clickedCards = [card.draw(screen) for card in self.cards_list]
+        clickedCards = [card.draw(screen, self.pokemon_details[0]) for card in self.cards_list]
         # Clicked card
         if any(clickedCards):
             clickedCard = clickedCards.index(True)
-            print(f'Se clickeo card {clickedCard}')
+            self.pokemon_details[0] = True
+            self.selected_pokemon = self.cards_list[clickedCard].pokemon
+        
+
+        # Pokemon details elements
+        if self.pokemon_details[0]:
+            self.detail_card.draw(screen, self.selected_pokemon, self.pokemon_details)
