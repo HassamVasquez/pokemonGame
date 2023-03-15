@@ -1,8 +1,7 @@
 import pygame,sys,listado
 from pygame.locals import *
 import button
-import time
-import pygame_gui
+
 pygame.init()
 #create game window
 SCREEN_WIDTH = 1000
@@ -19,35 +18,35 @@ def add_filter(filter):
 def make_filter():
   print(filter_list)
 #load button images
-resume_img = pygame.image.load("images/button_resume.png").convert_alpha()
-options_img = pygame.image.load("images/button_options.png").convert_alpha()
-quit_img = pygame.image.load("images/button_quit.png").convert_alpha()
-bicho_img = pygame.image.load('images/bicho.png').convert_alpha()
-dragon_img = pygame.image.load('images/dragon.png').convert_alpha()
-electrico_img = pygame.image.load('images/electrico.png').convert_alpha()
-agua_img = pygame.image.load('images/agua.png').convert_alpha()
-fantasma_img = pygame.image.load('images/fantasma.png').convert_alpha()#
-fuego_img = pygame.image.load('images/fuego.png').convert_alpha()
-hada_img = pygame.image.load('images/hada.png').convert_alpha()
-hielo_img = pygame.image.load('images/hielo.png').convert_alpha()
-lucha_img = pygame.image.load('images/lucha.png').convert_alpha()
-metal_img = pygame.image.load('images/metal.png').convert_alpha()
-normal_img = pygame.image.load('images/normal.png').convert_alpha()
-planta_img = pygame.image.load('images/planta.png').convert_alpha()
-psiquico_img = pygame.image.load('images/psiquico.png').convert_alpha()
-roca_img = pygame.image.load('images/roca.png').convert_alpha()
-siniestro_img = pygame.image.load('images/siniestro.png').convert_alpha()
-tiera_img = pygame.image.load('images/tierra.png').convert_alpha()
-veneno_img = pygame.image.load('images/veneno.png').convert_alpha()
-volador_img = pygame.image.load('images/volador.png').convert_alpha()
-primera_gen_img = pygame.image.load('images/primera.png').convert_alpha()
-segunda_gen_img = pygame.image.load('images/segunda.png').convert_alpha()
-tercera_gen_img = pygame.image.load('images/tercera.png').convert_alpha()
-cuarta_gen_img = pygame.image.load('images/cuarta.png').convert_alpha()
-quinta_gen_img = pygame.image.load('images/quinta.png').convert_alpha()
-sexta_gen_img = pygame.image.load('images/sexta.png').convert_alpha()
-filter_img = pygame.image.load('images/filtro.png').convert_alpha()
-back_img = pygame.image.load('images/button_back.png').convert_alpha()
+resume_img = pygame.image.load("images/filtros/button_resume.png").convert_alpha()
+options_img = pygame.image.load("images/filtros/button_options.png").convert_alpha()
+quit_img = pygame.image.load("images/filtros/button_quit.png").convert_alpha()
+bicho_img = pygame.image.load('images/filtros/bicho.png').convert_alpha()
+dragon_img = pygame.image.load('images/filtros/dragon.png').convert_alpha()
+electrico_img = pygame.image.load('images/filtros/electrico.png').convert_alpha()
+agua_img = pygame.image.load('images/filtros/agua.png').convert_alpha()
+fantasma_img = pygame.image.load('images/filtros/fantasma.png').convert_alpha()#
+fuego_img = pygame.image.load('images/filtros/fuego.png').convert_alpha()
+hada_img = pygame.image.load('images/filtros/hada.png').convert_alpha()
+hielo_img = pygame.image.load('images/filtros/hielo.png').convert_alpha()
+lucha_img = pygame.image.load('images/filtros/lucha.png').convert_alpha()
+metal_img = pygame.image.load('images/filtros/metal.png').convert_alpha()
+normal_img = pygame.image.load('images/filtros/normal.png').convert_alpha()
+planta_img = pygame.image.load('images/filtros/planta.png').convert_alpha()
+psiquico_img = pygame.image.load('images/filtros/psiquico.png').convert_alpha()
+roca_img = pygame.image.load('images/filtros/roca.png').convert_alpha()
+siniestro_img = pygame.image.load('images/filtros/siniestro.png').convert_alpha()
+tiera_img = pygame.image.load('images/filtros/tierra.png').convert_alpha()
+veneno_img = pygame.image.load('images/filtros/veneno.png').convert_alpha()
+volador_img = pygame.image.load('images/filtros/volador.png').convert_alpha()
+primera_gen_img = pygame.image.load('images/filtros/primera.png').convert_alpha()
+segunda_gen_img = pygame.image.load('images/filtros/segunda.png').convert_alpha()
+tercera_gen_img = pygame.image.load('images/filtros/tercera.png').convert_alpha()
+cuarta_gen_img = pygame.image.load('images/filtros/cuarta.png').convert_alpha()
+quinta_gen_img = pygame.image.load('images/filtros/quinta.png').convert_alpha()
+sexta_gen_img = pygame.image.load('images/filtros/sexta.png').convert_alpha()
+filter_img = pygame.image.load('images/filtros/filtro.png').convert_alpha()
+back_img = pygame.image.load('images/filtros/button_back.png').convert_alpha()
 
 #create button instances
 filtros_btn = button.Button(400, 600, filter_img, 0.5)
