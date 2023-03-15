@@ -4,7 +4,7 @@ from math import ceil
 from classes.pokemon import Pokemon
 from classes.action_button import ActionButton
 from classes.list_card import ListCard
-from views.detail_card import DetailCard
+from classes.detail_card import DetailCard
 
 from utils.pagination import get_paged_card_list
 import definitions.colours as COLOURS
