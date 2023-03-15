@@ -7,6 +7,7 @@ from classes.list_card import ListCard
 
 from utils.pagination import get_paged_card_list
 import definitions.colours as COLOURS
+from definitions.game_state import GameState
 
 
 class ListingView():
@@ -36,7 +37,7 @@ class ListingView():
         self.cards_list: list[ListCard] = get_paged_card_list(self.page, pokemon_list)
 
 
-    def loop(self, screen: pygame.Surface, pokemon_list: list[Pokemon]) -> None:
+    def loop(self, screen: pygame.Surface, pokemon_list: list[Pokemon], state: list[GameState]) -> None:
 
         # Title
         screen.blit(self.title, (440, 5))
@@ -56,7 +57,8 @@ class ListingView():
             self.cards_list = get_paged_card_list(self.page, pokemon_list)
 
         # Filter button action
-        self.filter_button.draw(screen)
+        if self.filter_button.draw(screen):
+            state[0] = GameState.FILTERING
 
         # Pokemon paged list
         clickedCards = [card.draw(screen) for card in self.cards_list]

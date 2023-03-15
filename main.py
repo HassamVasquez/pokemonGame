@@ -1,5 +1,6 @@
 import pygame
 import definitions.colours as COLOURS
+from definitions.game_state import GameState
 
 from classes.pokemon import Pokemon
 from views.listing import ListingView
@@ -26,12 +27,22 @@ listingView = ListingView(pokemon_list)
 
 
 # Game execution
+state: list[GameState] = [GameState.LISTING]
 running = True
 while running:
     game_screen.fill(COLOURS.WHITE)
 
-    # Listing view
-    listingView.loop(game_screen, pokemon_list)
+    # Diferents States
+    match state[0]:
+        case GameState.LISTING:
+            # Listing View
+            listingView.loop(game_screen, pokemon_list, state)
+
+        case GameState.FILTERING:
+            # Filtering View
+            print('filtering')
+        
+        # other views
 
     # Event handler
     for event in pygame.event.get():
