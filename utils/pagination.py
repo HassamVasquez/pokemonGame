@@ -2,8 +2,8 @@ from classes.list_card import ListCard
 from classes.pokemon import Pokemon
 
 # X and Y position for cards
-X_VALUES = [160, 480, 800, 1120]
-Y_VALUES = [140, 320, 500]
+X_VALUES = [175, 485, 795, 1105]
+Y_VALUES = [150, 330, 510]
 
 
 def create_list_card(x_values: list[int], y_values: list[int], pokemon_i:tuple[int, Pokemon]) -> ListCard:

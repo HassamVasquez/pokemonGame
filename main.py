@@ -22,8 +22,7 @@ pokemon_list: list[Pokemon] = load_pokemon_data()
 
 
 # LOAD VIEWS
-listingView = ListingView()
-listingView.setup(pokemon_list)
+listingView = ListingView(pokemon_list)
 
 
 # Game execution

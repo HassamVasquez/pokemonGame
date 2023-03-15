@@ -10,20 +10,9 @@ import definitions.colours as COLOURS
 
 
 class ListingView():
-    def __init__(self) -> None:
+    def __init__(self, pokemon_list: list[Pokemon]) -> None:
+        # Pagination
         self.page = 0
-        self.total_pages = 0
-        self.title = None
-        self.number_page_font = None
-        self.back_button = None
-        self.filter_button = None
-        self.next_button = None
-        self.cards_list = []
-
-
-    def setup(self, pokemon_list: list[Pokemon]):
-
-        # Pagination page
         self.total_pages = ceil(len(pokemon_list) / 12)
 
         # VISUAL ELEMENTS
@@ -33,12 +22,12 @@ class ListingView():
         self.title = title_font.render('POKEMON LIST', True, COLOURS.BLACK)
 
         # Number page
-        self.number_page_font = pygame.font.SysFont('consolas', 30, bold=True)
+        self.number_page_font = pygame.font.SysFont('consolas', 26, bold=True)
 
         # Load button image
         button_background = pygame.image.load('images/buttons/button_bg_green.png').convert_alpha()
 
-        # Create button instances
+        # Button instances
         self.back_button = ActionButton(300, 680, button_background, 'BACK', hover_scale=1.08)
         self.filter_button = ActionButton(640, 680, button_background, 'FILTER', hover_scale=1.08)
         self.next_button = ActionButton(980, 680, button_background, 'NEXT', hover_scale=1.08)
@@ -54,7 +43,7 @@ class ListingView():
 
         # Number Page
         number_page = self.number_page_font.render(f'Page {self.page + 1} of {self.total_pages} pages', True, COLOURS.BLACK)
-        screen.blit(number_page, (480, 600))
+        screen.blit(number_page, (990, 600))
 
         # Back button action
         if self.back_button.draw(screen) and self.page > 0:
