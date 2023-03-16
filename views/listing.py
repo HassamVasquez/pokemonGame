@@ -43,13 +43,13 @@ class ListingView():
 
 
         # Pokemon Details
-        self.pokemon_details: list[bool] = [False]
+        self.showing_details: list[bool] = [False]
         self.detail_card = DetailCard()
 
         self.selected_pokemon: Pokemon = Pokemon()
 
 
-    def loop(self, screen: pygame.Surface, pokemon_list: list[Pokemon], state: list[GameState]) -> None:
+    def loop(self, screen: pygame.Surface, pokemon_list: list[Pokemon], selected_pokemon_list: list[Pokemon], state: list[GameState]) -> None:
 
         # Title
         title_rect = self.title.get_rect()
@@ -62,29 +62,29 @@ class ListingView():
 
 
         # Back button action
-        if self.back_button.draw(screen, self.pokemon_details[0]) and self.page > 0:
+        if self.back_button.draw(screen, self.showing_details[0]) and self.page > 0:
             self.page -= 1
             self.cards_list = get_paged_card_list(self.page, pokemon_list)
 
         # Next button action
-        if self.next_button.draw(screen, self.pokemon_details[0]) and self.page < self.total_pages - 1:
+        if self.next_button.draw(screen, self.showing_details[0]) and self.page < self.total_pages - 1:
             self.page += 1
             self.cards_list = get_paged_card_list(self.page, pokemon_list)
 
         # Filter button action
-        if self.filter_button.draw(screen, self.pokemon_details[0]):
+        if self.filter_button.draw(screen, self.showing_details[0]):
             state[0] = GameState.FILTERING
 
 
         # Pokemon paged list
-        clickedCards = [card.draw(screen, self.pokemon_details[0]) for card in self.cards_list]
+        clickedCards = [card.draw(screen, self.showing_details[0]) for card in self.cards_list]
         # Clicked card
         if any(clickedCards):
             clickedCard = clickedCards.index(True)
-            self.pokemon_details[0] = True
+            self.showing_details[0] = True
             self.selected_pokemon = self.cards_list[clickedCard].pokemon
         
 
-        # Pokemon details elements
-        if self.pokemon_details[0]:
-            self.detail_card.draw(screen, self.selected_pokemon, self.pokemon_details)
+        # Pokemon details
+        if self.showing_details[0]:
+            self.detail_card.draw(screen, self.selected_pokemon, selected_pokemon_list, self.showing_details)

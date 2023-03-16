@@ -21,7 +21,7 @@ class DetailCard():
         # Buttons
         button_background = pygame.image.load('images/buttons/button_bg_green.png').convert_alpha()
         self.close_button = ActionButton(512, 660, button_background, 'CLOSE', hover_scale=1.08)
-        self.fight_button = ActionButton(768, 660, button_background, 'FIGHT', hover_scale=1.08)
+        self.select_button = ActionButton(768, 660, button_background, 'SELECT', hover_scale=1.08)
 
         # Info
         self.text_font = pygame.font.SysFont('consolas', 24, bold=True)
@@ -29,7 +29,7 @@ class DetailCard():
 
     
     
-    def draw(self, screen: pygame.Surface, pokemon: Pokemon, showing_details: list[bool]):
+    def draw(self, screen: pygame.Surface, pokemon: Pokemon, selected_pokemon_list: list[Pokemon], showing_details: list[bool]):
         # Translucent background
         screen.blit(self.details_background, (0, 0))
 
@@ -62,7 +62,11 @@ class DetailCard():
         if self.close_button.draw(screen):
             showing_details[0] = False
             
-        # Fight button
-        if self.fight_button.draw(screen):
+        # Select button
+        if self.select_button.draw(screen):
             showing_details[0] = False
-            print('Peleaaaaar')
+
+            # Add selected pokemon to the list
+            if not pokemon in selected_pokemon_list and len(selected_pokemon_list) < 3:
+                selected_pokemon_list.append(pokemon)
+            print(selected_pokemon_list)
