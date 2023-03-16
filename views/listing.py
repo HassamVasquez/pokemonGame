@@ -21,7 +21,7 @@ class ListingView():
         # Text
 
         # Title
-        title_font = pygame.font.SysFont('consolas', 60, bold=True)
+        title_font = pygame.font.SysFont('consolas', 40, bold=True)
         self.title = title_font.render('POKEMON LIST', True, COLOURS.BLACK)
 
         # Number page
@@ -52,7 +52,9 @@ class ListingView():
     def loop(self, screen: pygame.Surface, pokemon_list: list[Pokemon], state: list[GameState]) -> None:
 
         # Title
-        screen.blit(self.title, (440, 5))
+        title_rect = self.title.get_rect()
+        title_rect.center = (640, 25)
+        screen.blit(self.title, title_rect.topleft)
 
         # Number Page
         number_page = self.number_page_font.render(f'Page {self.page + 1} of {self.total_pages} pages', True, COLOURS.BLACK)

@@ -3,7 +3,7 @@ from classes.pokemon import Pokemon
 
 # X and Y position for cards
 X_VALUES = [175, 485, 795, 1105]
-Y_VALUES = [150, 330, 510]
+Y_VALUES = [130, 300, 470]
 
 
 def create_list_card(x_values: list[int], y_values: list[int], pokemon_i:tuple[int, Pokemon]) -> ListCard:
