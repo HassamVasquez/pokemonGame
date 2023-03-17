@@ -11,7 +11,6 @@ from utils.load_data import load_pokemon_data
 pygame.init()
 
 
-
 # Create the game window
 window_size = (1280, 720)
 game_screen = pygame.display.set_mode(window_size)
@@ -23,6 +22,9 @@ pygame.display.set_caption('Pokemon Battle')
 # Get pokemon list
 pokemon_list: list[Pokemon] = load_pokemon_data()
 pokemon_list_filtered=[]
+
+# Selected pokemon list
+selected_pokemon_list: list[Pokemon] = []
 
 # LOAD VIEWS
 listingView = ListingView(pokemon_list)
@@ -38,7 +40,7 @@ while running:
     match state[0]:
         case GameState.LISTING:
             # Listing View
-            listingView.loop(game_screen, pokemon_list, state)
+            listingView.loop(game_screen, pokemon_list, selected_pokemon_list, state)
 
         case GameState.FILTERING:
             # Filtering View

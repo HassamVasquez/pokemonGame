@@ -58,7 +58,6 @@ class ListingView():
 
     def update_selected_pokemon_buttons(self, pokemon_list: list[Pokemon]):
         self.selected_pokemon_buttons = [IconButton(300 + 80 * i, 600, pokemon.image_path) for i, pokemon in enumerate(pokemon_list)]
-        #selected_pokemon_buttons.append(IconButton(300 + 80 * len(selected_pokemon_list), 600, pokemon.image_path))
 
     def loop(self, screen: pygame.Surface, pokemon_list: list[Pokemon], selected_pokemon_list: list[Pokemon], state: list[GameState]) -> None:
 
@@ -102,7 +101,6 @@ class ListingView():
         selected_pokemon_clicked = [button.draw(screen) for button in self.selected_pokemon_buttons]
         # Clicked selected pokemon
         if any(selected_pokemon_clicked):
-            print('select')
             clicked_pokemon_index = selected_pokemon_clicked.index(True)
             selected_pokemon_list.pop(clicked_pokemon_index)
             self.update_selected_pokemon_buttons(selected_pokemon_list)

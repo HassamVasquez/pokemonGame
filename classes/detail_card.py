@@ -9,7 +9,6 @@ from classes.pokemon import Pokemon
 
 class DetailCard():
     def __init__(self) -> None:
-
         # Bakcground pokemon details
         self.details_background = pygame.Surface((1280, 720))
         self.details_background.set_alpha(220)
@@ -26,8 +25,6 @@ class DetailCard():
 
         # Info
         self.text_font = pygame.font.SysFont('consolas', 24, bold=True)
-
-
     
     
     def draw(self, screen: pygame.Surface, pokemon: Pokemon, selected_pokemon_list: list[Pokemon], showing_details: list[bool]):
