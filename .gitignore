@@ -1,7 +1,3 @@
-images/*
-!images/buttons/
-!images/cards/
-
 pokemon/
 pokemon_jpg/
 __pycache__/
