@@ -3,6 +3,7 @@ import pygame
 import definitions.colours as COLOURS
 
 from classes.action_button import ActionButton
+from classes.icon_button import IconButton
 from classes.pokemon import Pokemon
 
 
@@ -64,9 +65,8 @@ class DetailCard():
             
         # Select button
         if self.select_button.draw(screen):
-            showing_details[0] = False
-
             # Add selected pokemon to the list
             if not pokemon in selected_pokemon_list and len(selected_pokemon_list) < 3:
                 selected_pokemon_list.append(pokemon)
-            print(selected_pokemon_list)
+
+            showing_details[0] = False
