@@ -15,6 +15,7 @@ pygame.init()
 window_size = (1280, 720)
 game_screen = pygame.display.set_mode(window_size)
 pygame.display.set_caption('Pokemon Battle')
+clock = pygame.time.Clock()
 
 
 # LOGIC AND DATA VARIABLES
@@ -29,6 +30,7 @@ selected_pokemon_list: list[Pokemon] = []
 # LOAD VIEWS
 listingView = ListingView(pokemon_list)
 filteringView=FilteringView()
+
 
 # Game execution
 state: list[GameState] = [GameState.LISTING]
@@ -58,5 +60,7 @@ while running:
     # Update window screen
     pygame.display.update()
 
+    # FPS
+    clock.tick(60)
 
 pygame.quit()
