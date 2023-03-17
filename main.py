@@ -36,7 +36,7 @@ filteringView=FilteringView()
 state: list[GameState] = [GameState.LISTING]
 running = True
 while running:
-    game_screen.fill(COLOURS.WHITE)
+    game_screen.fill(COLOURS.CREAM)
 
     # Diferents States
     match state[0]:
