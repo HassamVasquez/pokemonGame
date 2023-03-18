@@ -1,5 +1,7 @@
 import pygame
 from classes.action_button import ActionButton
+from utils.function_filters import list_filtred
+from definitions.game_state import GameState
 
 class FilteringView():
     def __init__(self,) -> None:
@@ -65,7 +67,7 @@ class FilteringView():
       "gen":[],
      }
 
-    def loop(self, screen: pygame.Surface,pokemon_list_filtered:list,pokemon_list:list) -> None:
+    def loop(self, screen: pygame.Surface,pokemon_list_filtered:list,pokemon_list:list, state: list[GameState]) -> None:
         if self.bicho_btn.draw(screen):
           if 'Bug' not in self.filter_list['type']:
             self.filter_list['type'].append('Bug')
@@ -175,9 +177,10 @@ class FilteringView():
             self.filter_list['gen'].append(type_data)
         
         if self.filter_btn.draw(screen):
-          print("aquí va función de octavio",self.filter_list)
-          pokemon_list_filtered='Funcion'
+          pokemon_list_filtered = list_filtred(pokemon_list,self.filter_list)
+          print(len(pokemon_list_filtered))
+          state[0] = GameState.LISTING
         if self.back_button.draw(screen):
-          print("Regresa Menu") 
+          state[0] = GameState.LISTING
           
         
