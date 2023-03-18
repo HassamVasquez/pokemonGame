@@ -14,4 +14,4 @@ class Pokemon():
 		self.attack = data['attack']
 		self.generation = data['generation']
 		
-		self.image_path = f'{self.id}.jpg'
+		self.image_path = f'{self.id}.png'

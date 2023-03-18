@@ -178,7 +178,6 @@ class FilteringView():
         
         if self.filter_btn.draw(screen):
           pokemon_list_filtered = list_filtred(pokemon_list,self.filter_list)
-          print(len(pokemon_list_filtered))
           state[0] = GameState.LISTING
         if self.back_button.draw(screen):
           state[0] = GameState.LISTING
