@@ -11,6 +11,7 @@ class ActionButton(Button):
 
         # button text
         self.text = text
+        self.font_size: int = int(34 * scale)
 
         # hover scale
         self.hover_scale = hover_scale
@@ -27,12 +28,12 @@ class ActionButton(Button):
 
     def first_action(self):
         # text to render
-        font = pygame.font.SysFont('consolas', 34, bold=True)
+        font = pygame.font.SysFont('consolas', self.font_size, bold=True)
         self.text_surface = font.render(self.text, True, WHITE)       
 
     def hovered_button_action(self):
         self.background_render = self.hovered_view
-        font = pygame.font.SysFont('consolas', int(34 * self.hover_scale), bold=True)
+        font = pygame.font.SysFont('consolas', int(self.font_size * self.hover_scale), bold=True)
         self.text_surface = font.render(self.text, True, WHITE)
     
     def hover_button_losed_action(self):

@@ -39,9 +39,9 @@ class ListingView():
         button_bg_blue = pygame.image.load('images/buttons/blue_button_bg.png').convert_alpha()
 
         # Button instances
-        self.back_button = ActionButton(300, 680, button_bg_blue, 'BACK', hover_scale=1.08)
-        self.filter_button = ActionButton(640, 680, button_bg_orange, 'FILTER', hover_scale=1.08)
-        self.next_button = ActionButton(980, 680, button_bg_blue, 'NEXT', hover_scale=1.08)
+        self.back_button = ActionButton(100, 590, button_bg_blue, 'BACK', 0.85, 1.08)
+        self.filter_button = ActionButton(300, 590, button_bg_orange, 'FILTER', 0.85, 1.08)
+        self.next_button = ActionButton(500, 590, button_bg_blue, 'NEXT', 0.85, 1.08)
 
         # Create initial cards
         self.cards_list: list[ListCard] = get_paged_card_list(self.page, pokemon_list)
@@ -58,7 +58,7 @@ class ListingView():
         self.selected_pokemon: Pokemon = Pokemon()
 
     def update_selected_pokemon_buttons(self, pokemon_list: list[Pokemon]):
-        self.selected_pokemon_buttons = [IconButton(300 + 80 * i, 600, pokemon.image_path) for i, pokemon in enumerate(pokemon_list)]
+        self.selected_pokemon_buttons = [IconButton(300 + 80 * i, 670, pokemon.image_path) for i, pokemon in enumerate(pokemon_list)]
 
     def loop(self, screen: pygame.Surface, pokemon_list: list[Pokemon], selected_pokemon_list: list[Pokemon], state: list[GameState]) -> None:
 
@@ -69,10 +69,10 @@ class ListingView():
 
         # Number Page
         number_page = self.number_page_font.render(f'Page {self.page + 1} of {self.total_pages} pages', True, COLOURS.BLACK)
-        screen.blit(number_page, (990, 590))
+        screen.blit(number_page, (980, 580))
 
         # Choosed pokemon
-        screen.blit(self.choosed_pokemon_text, (30, 590))
+        screen.blit(self.choosed_pokemon_text, (30, 660))
 
 
         # Back button action
