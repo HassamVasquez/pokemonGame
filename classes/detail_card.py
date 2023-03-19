@@ -37,7 +37,7 @@ class DetailCard():
         screen.blit(self.details_card_background, dcb_rect.topleft)
 
         # Pokemon image
-        pokemon_image = pygame.image.load(f'pokemon_jpg/{pokemon.image_path}').convert_alpha()
+        pokemon_image = pygame.image.load(f'pokemon_images/{pokemon.image_path}').convert_alpha()
         pokemon_image = pygame.transform.scale(pokemon_image, (250, 250))
         pokemon_image_rect = pokemon_image.get_rect()
         pokemon_image_rect.center = (640, 160)

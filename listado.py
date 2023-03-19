@@ -73,7 +73,7 @@ def display_mesage(message,x,y):
     game_screen.blit(text, text_rect)
 
 def read_images():
-    with os.scandir('pokemon_jpg') as images:
+    with os.scandir('pokemon_images') as images:
         images = natsorted(images,alg = ns.PATH|ns.IGNORECASE)
         yield from images
  
@@ -91,7 +91,7 @@ def zip_pokemons()->list:
             y_it = 50
             if x_it == 25: x_it = 550
             else: x_it = 25
-        list_pokemons.append(Pokemon(x_it,y_it,pokemon,'pokemon_jpg/'+image.name))
+        list_pokemons.append(Pokemon(x_it,y_it,pokemon,'pokemon_images/'+image.name))
         y_it += y_add
     
     return list_pokemons

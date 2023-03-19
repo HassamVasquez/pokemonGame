@@ -16,7 +16,7 @@ class ListCard(Button):
         self.type_2_surface = pygame.Surface((0, 0))
 
         # Load pokemon image
-        pokemon_image = pygame.image.load(f'pokemon_jpg/{self.pokemon.image_path}').convert_alpha()
+        pokemon_image = pygame.image.load(f'pokemon_images/{self.pokemon.image_path}').convert_alpha()
         self.pokemon_image = pygame.transform.scale(pokemon_image, (130, 130))
     
 
