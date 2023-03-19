@@ -39,9 +39,9 @@ class ListingView():
         button_bg_blue = pygame.image.load('images/buttons/blue_button_bg.png').convert_alpha()
 
         # Button instances
-        self.back_button = ActionButton(94, 590, button_bg_blue, 'BACK', 0.75, 1.08)
-        self.next_button = ActionButton(256, 590, button_bg_blue, 'NEXT', 0.75, 1.08)
-        self.filter_button = ActionButton(640, 590, button_bg_orange, 'FILTER', 0.75, 1.08)
+        self.filter_button = ActionButton(94, 590, button_bg_orange, 'FILTER', 0.75, 1.08)
+        self.back_button = ActionButton(574, 590, button_bg_blue, 'BACK', 0.75, 1.08)
+        self.next_button = ActionButton(706, 590, button_bg_blue, 'NEXT', 0.75, 1.08)
 
         # Create initial cards
         self.cards_list: list[ListCard] = get_paged_card_list(self.page, pokemon_list)
