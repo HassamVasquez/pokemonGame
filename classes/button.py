@@ -24,7 +24,7 @@ class Button():
         self.hovered: bool = False
 
 
-    def first_action(self):
+    def first_action(self, disabled: bool):
         pass
 
     def hovered_button_action(self):
@@ -39,23 +39,23 @@ class Button():
     def after_bg_drawing_action(self, surface: pygame.Surface):
         pass
 
-    def draw(self, surface: pygame.Surface, disabled: bool = False) -> bool:
+    def draw(self, surface: pygame.Surface, disabled: bool = False, inactive: bool = False) -> bool:
         action: bool = False
 
         # First Action
-        self.first_action()
+        self.first_action(disabled)
 
         # get mouse position
         pos: tuple[int, int] = pygame.mouse.get_pos()
 
         # check mouseover (hover)
-        if self.rect.collidepoint(pos) and not disabled:
+        if self.rect.collidepoint(pos) and not disabled and not inactive:
             self.hovered = True
             pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
             self.hovered_button_action()
 
             # check if button is clicked
-            if pygame.mouse.get_pressed()[0] == 1 and not Button.button_clicked:
+            if pygame.mouse.get_pressed()[0] == 1 and not Button.button_clicked and not disabled:
                 Button.button_clicked = True
                 action = True
                 pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)

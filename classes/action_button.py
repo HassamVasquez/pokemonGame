@@ -9,6 +9,12 @@ class ActionButton(Button):
         width = background.get_width()
         height = background.get_height()
 
+        # Disabled Background image to render
+        disabled_background = pygame.image.load('images/buttons/grey_button_bg.png').convert_alpha()
+        self.disabled_view: pygame.Surface = pygame.transform.scale(
+            disabled_background, (int(width * scale), int(height * scale))
+        )
+
         # button text
         self.text = text
         self.font_size: int = int(34 * scale)
@@ -23,13 +29,19 @@ class ActionButton(Button):
         )
 
         # Text image to render
-        self.text_surface = None
+        self.text_surface = pygame.Surface((0, 0))
     
 
-    def first_action(self):
+    def first_action(self, disabled: bool):
         # text to render
         font = pygame.font.SysFont('consolas', self.font_size, bold=True)
         self.text_surface = font.render(self.text, True, WHITE)       
+
+        # Disabled background
+        if disabled:
+            self.background_render = self.disabled_view
+        else:
+            self.background_render = self.normal_view
 
     def hovered_button_action(self):
         self.background_render = self.hovered_view
