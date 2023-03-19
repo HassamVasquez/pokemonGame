@@ -22,14 +22,14 @@ clock = pygame.time.Clock()
 
 # Get pokemon list
 pokemon_list: list[Pokemon] = load_pokemon_data()
-pokemon_list_filtered=[]
+pokemon_list_filtered: list[Pokemon] = []
 
 # Selected pokemon list
 selected_pokemon_list: list[Pokemon] = []
 
 # LOAD VIEWS
 listingView = ListingView(pokemon_list)
-filteringView=FilteringView()
+filteringView = FilteringView()
 
 
 # Game execution
@@ -46,9 +46,8 @@ while running:
 
         case GameState.FILTERING:
             # Filtering View
-            filteringView.loop(game_screen,pokemon_list_filtered,pokemon_list)
-            
-        
+            filteringView.loop(game_screen,pokemon_list_filtered,pokemon_list,state)
+            print(len(pokemon_list_filtered), len(pokemon_list))
         # other views
 
     # Event handler
