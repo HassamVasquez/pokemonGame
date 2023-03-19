@@ -61,7 +61,7 @@ class DetailCard():
             showing_details[0] = False
             
         # Select button
-        if self.select_button.draw(screen):
+        if self.select_button.draw(screen, len(selected_pokemon_list) > 2):
             # Add selected pokemon to the list
             if not pokemon in selected_pokemon_list and len(selected_pokemon_list) < 3:
                 selected_pokemon_list.append(pokemon)
