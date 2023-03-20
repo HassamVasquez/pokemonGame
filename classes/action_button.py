@@ -4,7 +4,7 @@ from definitions.colours import WHITE
 
 
 class ActionButton(Button):
-    def __init__(self, x: int, y: int, background: pygame.Surface, text: str, scale: float = 1, hover_scale: float = 1):
+    def __init__(self, x: int, y: int, background: pygame.Surface, text: str, scale: float = 1, hover_scale: float = 1, fontTam = 34 ):
         super().__init__(x, y, background, scale)
         width = background.get_width()
         height = background.get_height()
@@ -17,7 +17,7 @@ class ActionButton(Button):
 
         # button text
         self.text = text
-        self.font_size: int = int(34 * scale)
+        self.font_size: int = int(fontTam * scale)
 
         # hover scale
         self.hover_scale = hover_scale
