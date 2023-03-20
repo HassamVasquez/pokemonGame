@@ -29,7 +29,8 @@ class ListingView():
         self.number_page_font = pygame.font.SysFont('consolas', 22, bold=True)
 
         # Choosed pokemon
-        self.choosed_pokemon_text = self.number_page_font.render('Choosed pokemon:', True, COLOURS.BLACK)
+        choosed_pokemon_font = pygame.font.SysFont('consolas', 26, bold=True)
+        self.choosed_pokemon_text = choosed_pokemon_font.render('Choosed pokemon:', True, COLOURS.BLACK)
 
 
         # BUTTONS
@@ -49,6 +50,10 @@ class ListingView():
         # Selected pokemon buttons
         self.selected_pokemon_buttons: list[IconButton] = []
 
+        # Figth Button
+        button_bg_red = pygame.image.load('images/buttons/red_button_bg.png').convert_alpha()
+        self.fight_button = ActionButton(640, 676, button_bg_red, 'FIGTH', hover_scale=1.08)
+
 
         # POKEMON DETAILS
 
@@ -58,7 +63,7 @@ class ListingView():
         self.selected_pokemon: Pokemon = Pokemon()
 
     def update_selected_pokemon_buttons(self, pokemon_list: list[Pokemon]):
-        self.selected_pokemon_buttons = [IconButton(300 + 80 * i, 670, pokemon.image_path) for i, pokemon in enumerate(pokemon_list)]
+        self.selected_pokemon_buttons = [IconButton(300 + 80 * i, 676, pokemon.image_path) for i, pokemon in enumerate(pokemon_list)]
 
     def loop(self, screen: pygame.Surface, pokemon_list: list[Pokemon], selected_pokemon_list: list[Pokemon], state: list[GameState]) -> None:
 
@@ -72,7 +77,7 @@ class ListingView():
         screen.blit(number_page, (1015, 580))
 
         # Choosed pokemon
-        screen.blit(self.choosed_pokemon_text, (30, 660))
+        screen.blit(self.choosed_pokemon_text, (30, 664))
 
 
         # Back button action
@@ -105,6 +110,10 @@ class ListingView():
             clicked_pokemon_index = selected_pokemon_clicked.index(True)
             selected_pokemon_list.pop(clicked_pokemon_index)
             self.update_selected_pokemon_buttons(selected_pokemon_list)
+        
+        # Fight Button
+        if self.fight_button.draw(screen, len(selected_pokemon_list) in [0, 2], self.showing_details[0]):
+            print('Pelear')
 
         # Pokemon details
         if self.showing_details[0]:
