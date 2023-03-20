@@ -37,7 +37,7 @@ class DetailCard():
         screen.blit(self.details_card_background, dcb_rect.topleft)
 
         # Pokemon image
-        pokemon_image = pygame.image.load(f'pokemon_jpg/{pokemon.image_path}').convert_alpha()
+        pokemon_image = pygame.image.load(f'pokemon_images/{pokemon.image_path}').convert_alpha()
         pokemon_image = pygame.transform.scale(pokemon_image, (250, 250))
         pokemon_image_rect = pokemon_image.get_rect()
         pokemon_image_rect.center = (640, 160)
@@ -61,7 +61,7 @@ class DetailCard():
             showing_details[0] = False
             
         # Select button
-        if self.select_button.draw(screen):
+        if self.select_button.draw(screen, len(selected_pokemon_list) > 2):
             # Add selected pokemon to the list
             if not pokemon in selected_pokemon_list and len(selected_pokemon_list) < 3:
                 selected_pokemon_list.append(pokemon)

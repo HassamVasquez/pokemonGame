@@ -9,7 +9,7 @@ class IconButton(Button):
         super().__init__(x, y, background_image, scale)
 
         # Load pokemon image
-        pokemon_image = pygame.image.load(f'pokemon_jpg/{icon_path}').convert_alpha()
+        pokemon_image = pygame.image.load(f'pokemon_images/{icon_path}').convert_alpha()
         self.pokemon_image = pygame.transform.scale(pokemon_image, (62, 62))
 
     def after_bg_drawing_action(self, surface: pygame.Surface):
