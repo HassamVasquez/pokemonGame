@@ -38,11 +38,9 @@ pokemon_list_combat.append(PokemonCombat(pokemon_list[0].name,30,25,50,'pokemon_
 pokemon_list_combat.append(PokemonCombat(pokemon_list[1].name,30,25,50,'pokemon_images/'+pokemon_list[1].image_path,pokemon_list[1].type_1,game_screen))
 
 # LOAD VIEWS
-views: dict[str, object] = {
-    'listingView' : ListingView(filtered_pokemon_list),
-    'filteringView' : FilteringView(),
-    'combat': Combat(pokemon_list_combat,game_screen),
-}
+listingView = ListingView(filtered_pokemon_list)
+filteringView = FilteringView()
+comba = Combat(pokemon_list_combat,game_screen)
 
 
 # Game execution
@@ -55,15 +53,15 @@ while running:
     match state[0]:
         case GameState.LISTING:
             # Listing View
-            views['listingView'].loop(game_screen, filtered_pokemon_list, selected_pokemon_list, state)
+            listingView.loop(game_screen, filtered_pokemon_list, selected_pokemon_list, state)
 
         case GameState.FILTERING:
             # Filtering View
-            views['filteringView'].loop(game_screen, filtered_pokemon_list, pokemon_list, state, views)
+            filteringView.loop(game_screen, filtered_pokemon_list, pokemon_list, state, listingView)
           
         case GameState.SINGLE_BATTLE:
             # combat View
-            views['combat'].loop(game_screen, pokemon_list_combat, state)
+            comba.loop(game_screen, pokemon_list_combat, state)
         # other views
 
     # Event handler

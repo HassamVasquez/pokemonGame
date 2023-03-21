@@ -119,3 +119,11 @@ class ListingView():
         if self.showing_details[0]:
             self.detail_card.draw(screen, self.selected_pokemon, selected_pokemon_list, self.showing_details)
             self.update_selected_pokemon_buttons(selected_pokemon_list)
+    
+    def update(self, pokemon_list: list[Pokemon]):
+        # Pagination
+        self.page = 0
+        self.total_pages = ceil(len(pokemon_list) / 12)
+
+        # Update initial cards
+        self.cards_list: list[ListCard] = get_paged_card_list(self.page, pokemon_list)
