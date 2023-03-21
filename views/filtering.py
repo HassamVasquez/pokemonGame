@@ -1,5 +1,7 @@
 import pygame
 from classes.action_button import ActionButton
+from classes.pokemon import Pokemon
+from views.listing import ListingView
 from utils.function_filters import list_filtred
 from definitions.game_state import GameState
 
@@ -67,7 +69,7 @@ class FilteringView():
       "gen":[],
      }
 
-    def loop(self, screen: pygame.Surface,pokemon_list_filtered:list,pokemon_list:list, state: list[GameState]) -> None:
+    def loop(self, screen: pygame.Surface, pokemon_list_filtered:list[Pokemon], pokemon_list:list[Pokemon], state: list[GameState], views: dict) -> None:
         if self.bicho_btn.draw(screen):
           if 'Bug' not in self.filter_list['type']:
             self.filter_list['type'].append('Bug')
@@ -177,8 +179,10 @@ class FilteringView():
             self.filter_list['gen'].append(type_data)
         
         if self.filter_btn.draw(screen):
-          pokemon_list_filtered = list_filtred(pokemon_list,self.filter_list)
+          pokemon_list_filtered.clear()
+          pokemon_list_filtered.extend(list_filtred(pokemon_list,self.filter_list))
           state[0] = GameState.LISTING
+          views['listingView'] = ListingView(pokemon_list_filtered)
         if self.back_button.draw(screen):
           state[0] = GameState.LISTING
           

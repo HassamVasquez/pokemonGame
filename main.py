@@ -24,7 +24,7 @@ clock = pygame.time.Clock()
 
 # Get pokemon list
 pokemon_list: list[Pokemon] = load_pokemon_data()
-pokemon_list_filtered: list[Pokemon] = []
+filtered_pokemon_list: list[Pokemon] = pokemon_list.copy()
 
 # Selected pokemon list
 selected_pokemon_list: list[Pokemon] = []
@@ -38,9 +38,12 @@ pokemon_list_combat.append(PokemonCombat(pokemon_list[0].name,30,25,50,'pokemon_
 pokemon_list_combat.append(PokemonCombat(pokemon_list[1].name,30,25,50,'pokemon_images/'+pokemon_list[1].image_path,pokemon_list[1].type_1,game_screen))
 
 # LOAD VIEWS
-listingView = ListingView(pokemon_list)
-filteringView = FilteringView()
-combat = Combat(pokemon_list_combat,game_screen)
+views: dict[str, object] = {
+    'listingView' : ListingView(filtered_pokemon_list),
+    'filteringView' : FilteringView(),
+    'combat': Combat(pokemon_list_combat,game_screen),
+}
+
 
 # Game execution
 state: list[GameState] = [GameState.LISTING]
@@ -52,16 +55,15 @@ while running:
     match state[0]:
         case GameState.LISTING:
             # Listing View
-            listingView.loop(game_screen, pokemon_list, selected_pokemon_list, state)
+            views['listingView'].loop(game_screen, filtered_pokemon_list, selected_pokemon_list, state)
 
         case GameState.FILTERING:
             # Filtering View
-            filteringView.loop(game_screen,pokemon_list_filtered,pokemon_list,state)
-            print(len(pokemon_list_filtered), len(pokemon_list))
+            views['filteringView'].loop(game_screen, filtered_pokemon_list, pokemon_list, state, views)
           
         case GameState.SINGLE_BATTLE:
             # combat View
-            combat.loop(game_screen, pokemon_list_combat, state)
+            views['combat'].loop(game_screen, pokemon_list_combat, state)
         # other views
 
     # Event handler

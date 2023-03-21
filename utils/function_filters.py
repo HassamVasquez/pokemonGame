@@ -17,7 +17,7 @@ def filter_gen(list_gen):
         else : return False
     return func_pokemon
     
-def list_filtred(list_pokemons, dict_filters,):
+def list_filtred(list_pokemons, dict_filters):
     if dict_filters['type'] or dict_filters['gen']:
         f_type, f_gen = filter_type(dict_filters['type']), filter_type(dict_filters['gen'])
         filtred = list(map(lambda x:x, filter(lambda y:(f_type(y) and f_gen(y)), list_pokemons)))
