@@ -4,7 +4,7 @@ from definitions.colours import WHITE
 
 
 class ActionButton(Button):
-    def __init__(self, x: int, y: int, background: pygame.Surface, text: str, scale: float = 1, hover_scale: float = 1, fontTam = 34 ):
+    def __init__(self, x: int, y: int, background: pygame.Surface, text: str, scale: float = 1, hover_scale: float = 1, fontTam = 34, changeBgOnDisabled = True):
         super().__init__(x, y, background, scale)
         width = background.get_width()
         height = background.get_height()
@@ -30,7 +30,9 @@ class ActionButton(Button):
 
         # Text image to render
         self.text_surface = pygame.Surface((0, 0))
-    
+
+        # Flag
+        self.changeBgOnDisabled = changeBgOnDisabled
 
     def first_action(self, disabled: bool):
         # text to render
@@ -38,7 +40,7 @@ class ActionButton(Button):
         self.text_surface = font.render(self.text, True, WHITE)       
 
         # Disabled background
-        if disabled:
+        if disabled and self.changeBgOnDisabled:
             self.background_render = self.disabled_view
         else:
             self.background_render = self.normal_view
