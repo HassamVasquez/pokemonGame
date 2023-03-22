@@ -113,7 +113,10 @@ class ListingView():
         
         # Fight Button
         if self.fight_button.draw(screen, len(selected_pokemon_list) in [0, 2], self.showing_details[0]):
-            print('Pelear')
+            if len(selected_pokemon_list) == 1:
+                state[0] = GameState.SINGLE_BATTLE
+            else:
+                state[0] = GameState.TEAM_BATTLE
 
         # Pokemon details
         if self.showing_details[0]:

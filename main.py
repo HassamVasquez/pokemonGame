@@ -1,5 +1,6 @@
 import pygame
 import definitions.colours as COLOURS
+from random import randint
 from definitions.game_state import GameState
 from views.filtering import FilteringView
 from classes.pokemon_combat import PokemonCombat
@@ -33,14 +34,14 @@ selected_pokemon_list: list[Pokemon] = []
 pokemon_list_combat = []
 
 
-#Test combat
-pokemon_list_combat.append(PokemonCombat(pokemon_list[0].name,30,25,50,'pokemon_images/'+pokemon_list[0].image_path,pokemon_list[0].type_1, game_screen))
-pokemon_list_combat.append(PokemonCombat(pokemon_list[1].name,30,25,50,'pokemon_images/'+pokemon_list[1].image_path,pokemon_list[1].type_1,game_screen))
+#Select rival single battle
+ran = randint(1, 720)
+ban = 0
 
 # LOAD VIEWS
 listingView = ListingView(filtered_pokemon_list)
 filteringView = FilteringView()
-comba = Combat(pokemon_list_combat,game_screen)
+
 
 
 # Game execution
@@ -61,7 +62,13 @@ while running:
           
         case GameState.SINGLE_BATTLE:
             # combat View
-            comba.loop(game_screen, pokemon_list_combat, state)
+            if ban == 0:
+                pokemon_list_combat.append(PokemonCombat(selected_pokemon_list[0].name,30,25,50,'pokemon_images/'+selected_pokemon_list[0].image_path,selected_pokemon_list[0].type_1, game_screen))
+                pokemon_list_combat.append(PokemonCombat(pokemon_list[ran].name,30,25,50,'pokemon_images/'+pokemon_list[ran].image_path,pokemon_list[ran].type_1,game_screen))
+                comb = Combat(pokemon_list_combat,game_screen)
+                ban = 1
+            else:
+                comb.loop(game_screen, pokemon_list_combat, state,ban)
         # other views
 
     # Event handler

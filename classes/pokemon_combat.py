@@ -50,8 +50,9 @@ class PokemonCombat(pygame.sprite.Sprite):
         new_width,new_height = self.image.get_width() * scale,self.image.get_height()* scale
         self.image = pygame.transform.scale(self.image,(new_width,new_height))
     
-    def draw(self,game_screen : pygame.Surface,alpha = 255):
+    def draw(self,game_screen : pygame.Surface,alpha = 255,scale = 250):
         sprite, transparency= self.image.copy(),(255,255,255,alpha)
+        sprite = pygame.transform.scale(sprite, (scale, scale))
         sprite.fill(transparency,None,pygame.BLEND_RGB_MULT)
         game_screen.blit(sprite,(self.x,self.y))
     
@@ -113,12 +114,10 @@ class PokemonCombat(pygame.sprite.Sprite):
         rival.take_damage(damage)
         
     def take_damage(self, damage):
-        print("Entre a take Damage")
         self.current_hp -= damage
         
         if self.current_hp < 0:
             self.current_hp = 0
-        time.sleep(1)
     def use_potion(self):
         if self.num_potions > 0:
             

@@ -27,30 +27,53 @@ class Combat():
         self.move = 0
         self.bandera = 0
 
-        #Inicializamos movimientos
+        #Background
+        self.backGround = pygame.image.load("images/combat/green.png")
+        self.backGround = pygame.transform.scale(self.backGround, (1280, 550))
+        game_screen.blit(self.backGround,(0,0))
+
+        #Backgraund bar
+        self.backGroundBar = pygame.image.load("images/combat/bar.jpg")
+        self.backGroundBar = pygame.transform.scale(self.backGroundBar, (1280, 170))
+        game_screen.blit(self.backGroundBar,(0,550))
+
+        #HpBar
+        self.hp = pygame.image.load("images/combat/chat2.png")
+        self.hp = pygame.transform.scale(self.hp, (400, 110))
+
+        self.hp2 = pygame.image.load("images/combat/chat.png")
+        self.hp2 = pygame.transform.scale(self.hp2, (400, 110))
+
+        game_screen.blit(self.hp,(250,75))
+        game_screen.blit(self.hp2,(800,400))
+
+        #moves
         self.player_pokemon.set_moves()
         self.rival_pokemon.set_moves()
 
-        button_background = pygame.image.load('images/buttons/button_bg_green.png').convert_alpha()
+        button_backgroundGreen = pygame.image.load('images/buttons/button_bg_green.png').convert_alpha()
+        button_backgroundRed = pygame.image.load('images/buttons/red_button_bg.png').convert_alpha()
+
+        button_backgroundOrange = pygame.image.load('images/buttons/orange_button_bg.png').convert_alpha()
+        button_backgroundBlue = pygame.image.load('images/buttons/blue_button_bg.png').convert_alpha()
 
         # Button instances
-        self.atack_button = ActionButton(125, 420, button_background, 'Atack', hover_scale=1.08,scale = 1.50)
-        self.potion_button = ActionButton(372, 420, button_background, 'Potion', hover_scale=1.08, scale = 1.50)
+        self.atack_button = ActionButton(850, 625, button_backgroundRed, 'Atack', hover_scale=1.08,scale = 1.50)
+        self.potion_button = ActionButton(1150, 625, button_backgroundGreen, 'Potion', hover_scale=1.08, scale = 1.50)
 
         #Botones de movimientos
-        self.mov1_button = ActionButton(100, 375, button_background, self.player_pokemon.moves[0]['name'], hover_scale=1.08,scale = 1.2, fontTam = 22)
-        self.mov2_button = ActionButton(350, 375, button_background, self.player_pokemon.moves[1]['name'], hover_scale=1.08, scale = 1.2, fontTam = 22)
-        self.mov3_button = ActionButton(100, 450, button_background, self.player_pokemon.moves[2]['name'], hover_scale=1.08, scale = 1.2, fontTam = 22)
-        self.mov4_button = ActionButton(350, 450, button_background, self.player_pokemon.moves[3]['name'], hover_scale=1.08, scale = 1.2, fontTam = 22)
+        self.mov1_button = ActionButton(850, 595, button_backgroundOrange, self.player_pokemon.moves[0]['name'], hover_scale=1.08,scale = 1.2, fontTam = 22)
+        self.mov2_button = ActionButton(850, 680, button_backgroundBlue, self.player_pokemon.moves[1]['name'], hover_scale=1.08, scale = 1.2, fontTam = 22)
+        self.mov3_button = ActionButton(1150, 595, button_backgroundBlue, self.player_pokemon.moves[2]['name'], hover_scale=1.08, scale = 1.2, fontTam = 22)
+        self.mov4_button = ActionButton(1150, 680, button_backgroundOrange, self.player_pokemon.moves[3]['name'], hover_scale=1.08, scale = 1.2, fontTam = 22)
         
         #Cambiamos display
         
 
-    def loop(self, game_screen: pygame.Surface, pokemon_list, state: list[GameState]) -> None:
-        changeTamDisplay(500,500)
+    def loop(self, game_screen: pygame.Surface, pokemon_list, state: list[GameState], ban) -> None:
         for event in pygame.event.get():
-
-            game_screen.fill(COLOURS.WHITE)
+            if event.type == pygame.QUIT:
+                state[0] = GameState.LISTING
             if event.type == KEYDOWN:
 
                 if event.key == K_y:
@@ -60,54 +83,58 @@ class Combat():
                     self.game_status = 'BattlePokemon'
                 elif event.key == K_n:
                     #Change display
-                    changeTamDisplay(1280, 720)
+                    self.ban = 0
                     state[0] = GameState.LISTING
                     
 
             
         if self.game_status == 'BattlePokemon':
-            
-            self.player_pokemon.x = 0
-            self.player_pokemon.y = 175
-            self.rival_pokemon.x = 300
-            self.rival_pokemon.y = -10
+            game_screen.blit(self.backGround,(0,0))
+            game_screen.blit(self.backGroundBar,(0,550))
+            self.player_pokemon.x = 150
+            self.player_pokemon.y = 300
+            self.rival_pokemon.x = 800
+            self.rival_pokemon.y = 45
             alpha = 0
             while alpha < 100:
-                game_screen.fill(COLOURS.WHITE)
-                self.rival_pokemon.draw(game_screen,alpha)
+
+                self.rival_pokemon.draw(game_screen,alpha,scale=220)
                 display_message(game_screen, f'El rival eligio a  {self.rival_pokemon.name}!')
                 alpha += .4
                 
-                pygame.display.update()
             alpha = 0
-            while alpha < 100:
-                game_screen.fill(COLOURS.WHITE)
-                self.rival_pokemon.draw(game_screen)
+            while alpha < 50:
+                self.rival_pokemon.draw(game_screen,scale=220)
                 self.player_pokemon.draw(game_screen,alpha)
                 display_message(game_screen , f'Ve {self.player_pokemon.name}!')
                 alpha += .4
-                
-                pygame.display.update()
-            self.player_pokemon.hp_x = 275
-            self.player_pokemon.hp_y = 250
-            self.rival_pokemon.hp_x = 50
-            self.rival_pokemon.hp_y = 50
+            
+            game_screen.blit(self.hp,(250,75))
+            game_screen.blit(self.hp2,(800,400))
+
+            self.player_pokemon.hp_x = 850
+            self.player_pokemon.hp_y = 435
+            self.rival_pokemon.hp_x = 320
+            self.rival_pokemon.hp_y = 110
 
             self.player_pokemon.draw_hp(game_screen)
-            self.rival_pokemon.draw_hp(game_screen)
+            self.rival_pokemon.draw(game_screen,scale=220)
             
             self.game_status = 'player turn'
             self.bandera == 0
 
         if self.game_status == 'player turn':
-            game_screen.fill(COLOURS.WHITE)
+            game_screen.blit(self.backGround,(0,0))
+            game_screen.blit(self.backGroundBar,(0,550))
+            game_screen.blit(self.hp,(250,75))
+            game_screen.blit(self.hp2,(800,400))
+
             drawBatlle(self.player_pokemon,self.rival_pokemon,game_screen)
             if self.bandera == 0:
                 if self.atack_button.draw(game_screen):
                     self.bandera = 1
                 if self.potion_button.draw(game_screen):
                     self.bandera = 3
-
             if self.bandera == 1:
                 if self.mov1_button.draw(game_screen):
                     self.player_pokemon.perform_attack(self.rival_pokemon, self.player_pokemon.moves[0],self.player_pokemon,1)
@@ -123,7 +150,6 @@ class Combat():
                     self.bandera = 2
 
             if self.bandera == 2:
-                game_screen.fill(COLOURS.WHITE)
                 if self.rival_pokemon.current_hp == 0:
                     
                     self.game_status = 'fainted'
@@ -133,18 +159,20 @@ class Combat():
             if self.bandera == 3:
                 if self.player_pokemon.num_potions == 0:
                         display_message(game_screen ,'No more potions left')
-                        time.sleep(1)
                         self.bandera = 1
                 else:
                     self.player_pokemon.use_potion()
                     display_message(game_screen ,f'{self.player_pokemon.name} used potion')
-                    time.sleep(1)
                     self.game_status = 'rival turn'
                     self.bandera = 2
             #pygame.draw.rect(game_screen, COLOURS.BLACK, (10, 350, 480, 140), 3)
 
         if self.game_status == 'rival turn':
-            game_screen.fill(COLOURS.WHITE)
+            game_screen.blit(self.backGround,(0,0))
+            game_screen.blit(self.backGroundBar,(0,550))
+            game_screen.blit(self.hp,(250,75))
+            game_screen.blit(self.hp2,(800,400))
+
             drawBatlle(self.player_pokemon,self.rival_pokemon,game_screen)
             
             
@@ -162,19 +190,22 @@ class Combat():
             alpha = 75
             while alpha > 0:
                 
-                game_screen.fill(COLOURS.WHITE)
+                game_screen.blit(self.backGround,(0,0))
+                game_screen.blit(self.backGroundBar,(0,550))
+                game_screen.blit(self.hp,(250,75))
+                game_screen.blit(self.hp2,(800,400))
                 self.player_pokemon.draw_hp(game_screen)
-                self.rival_pokemon.draw_hp(game_screen)
+                self.rival_pokemon.draw(game_screen,scale=220)
                 
 
                 if self.rival_pokemon.current_hp == 0:
                     self.player_pokemon.draw(game_screen)
-                    self.rival_pokemon.draw(game_screen,alpha)
+                    self.rival_pokemon.draw(game_screen,alpha,scale=220)
                     display_message(game_screen , f'{self.rival_pokemon.name} Derrotado!')
                     
                 else:
                     self.player_pokemon.draw(game_screen,alpha)
-                    self.rival_pokemon.draw(game_screen)
+                    self.rival_pokemon.draw(game_screen,scale=220)
                     display_message(game_screen ,f'{self.player_pokemon.name} Derrotado!')
                 alpha -= .4
                 

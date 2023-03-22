@@ -29,20 +29,30 @@ def create_button(width, height, left, top, text_cx, text_cy, label,game_screen)
     
     return button
 def display_message(game_screen: pygame.Surface, message):
-    pygame.draw.rect(game_screen, COLOURS.WHITE, (10, 350, 480, 140))
-    pygame.draw.rect(game_screen, COLOURS.BLACK, (10, 350, 480, 140), 3)
-    font = pygame.font.Font(pygame.font.get_default_font(), 20)
+    pygame.draw.rect(game_screen, COLOURS.WHITE, (0, 550, 700, 170))
+    pygame.draw.rect(game_screen, COLOURS.BLACK, (0, 550, 700, 170), 3)
+    font = pygame.font.Font(pygame.font.get_default_font(), 30)
     text = font.render(message, True, COLOURS.BLACK)
     text_rect = text.get_rect()
     text_rect.x = 30
-    text_rect.y = 410
+    text_rect.y = 625
     game_screen.blit(text, text_rect)
     pygame.display.update()
 
 def drawBatlle(player_pokemon,rival_pokemon,game_screen: pygame.Surface ):
-        game_screen.fill(COLOURS.WHITE)
         player_pokemon.draw(game_screen)
-        rival_pokemon.draw(game_screen)
+        rival_pokemon.draw(game_screen,scale=220)
         player_pokemon.draw_hp(game_screen)
         rival_pokemon.draw_hp(game_screen)
+
+def message(game_screen: pygame.Surface, message):
+    pygame.draw.rect(game_screen, COLOURS.WHITE, (0, 550, 700, 170))
+    pygame.draw.rect(game_screen, COLOURS.BLACK, (0, 550, 700, 170), 3)
+    font = pygame.font.Font(pygame.font.get_default_font(), 30)
+    text = font.render(message, True, COLOURS.BLACK)
+    text_rect = text.get_rect()
+    text_rect.x = 30
+    text_rect.y = 625
+    game_screen.blit(text, text_rect)
+    pygame.display.update()
         
