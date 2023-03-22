@@ -32,6 +32,10 @@ class ListingView():
         choosed_pokemon_font = pygame.font.SysFont('consolas', 26, bold=True)
         self.choosed_pokemon_text = choosed_pokemon_font.render('Choosed pokemon:', True, COLOURS.BLACK)
 
+        # Empty pokemon list
+        empty_list_font = pygame.font.SysFont('consolas', 32, bold=True)
+        self.empty_list_text = empty_list_font.render('*** No Pokemons Found ***', True, COLOURS.BLACK)
+
 
         # BUTTONS
 
@@ -102,6 +106,10 @@ class ListingView():
             clickedCard = clickedCards.index(True)
             self.selected_pokemon = self.cards_list[clickedCard].pokemon
             self.showing_details[0] = True
+        
+        # Empty pokemon list
+        if (len(pokemon_list) == 0):
+            screen.blit(self.empty_list_text, (420, 280))
         
         # Selected pokemon
         selected_pokemon_clicked = [button.draw(screen, inactive=self.showing_details[0]) for button in self.selected_pokemon_buttons]
