@@ -35,9 +35,9 @@ pokemon_list_combat = []
 
 
 #Select rival single battle
-ran = randint(1, 720)
-ban = 0
 
+flag = bool
+flag = True
 # LOAD VIEWS
 listingView = ListingView(filtered_pokemon_list)
 filteringView = FilteringView()
@@ -54,21 +54,25 @@ while running:
     match state[0]:
         case GameState.LISTING:
             # Listing View
+            flag = True
             listingView.loop(game_screen, filtered_pokemon_list, selected_pokemon_list, state)
 
         case GameState.FILTERING:
             # Filtering View
             filteringView.loop(game_screen, filtered_pokemon_list, pokemon_list, state, listingView)
-          
+            
+
         case GameState.SINGLE_BATTLE:
             # combat View
-            if ban == 0:
-                pokemon_list_combat.append(PokemonCombat(selected_pokemon_list[0].name,30,25,50,'pokemon_images/'+selected_pokemon_list[0].image_path,selected_pokemon_list[0].type_1, game_screen))
-                pokemon_list_combat.append(PokemonCombat(pokemon_list[ran].name,30,25,50,'pokemon_images/'+pokemon_list[ran].image_path,pokemon_list[ran].type_1,game_screen))
+            
+            if flag == True:
+                ran = randint(1, 720)
+                pokemon_list_combat.insert(0,PokemonCombat(selected_pokemon_list[0].name,30,25,50,'pokemon_images/'+selected_pokemon_list[0].image_path,selected_pokemon_list[0].type_1, game_screen))
+                pokemon_list_combat.insert(1,PokemonCombat(pokemon_list[ran].name,30,25,50,'pokemon_images/'+pokemon_list[ran].image_path,pokemon_list[ran].type_1,game_screen))
                 comb = Combat(pokemon_list_combat,game_screen)
-                ban = 1
+                flag = False
             else:
-                comb.loop(game_screen, pokemon_list_combat, state,ban)
+                comb.loop(game_screen, pokemon_list_combat, state,flag)
         # other views
 
     # Event handler

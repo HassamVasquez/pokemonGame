@@ -37,6 +37,10 @@ class Combat():
         self.backGroundBar = pygame.image.load("images/combat/bar.png")
         self.backGroundBar = pygame.transform.scale(self.backGroundBar, (1280, 170))
         game_screen.blit(self.backGroundBar,(0,550))
+        
+        #Winner
+        self.winner = pygame.image.load("images/combat/winner.jpeg")
+        self.winner = pygame.transform.scale(self.winner, (1280, 720))
 
         #HpBar
         self.bar = pygame.image.load("images/combat/bar.png")
@@ -49,46 +53,43 @@ class Combat():
         self.player_pokemon.set_moves()
         self.rival_pokemon.set_moves()
 
+        #Buttons
         button_backgroundGreen = pygame.image.load('images/buttons/button_bg_green.png').convert_alpha()
         button_backgroundRed = pygame.image.load('images/buttons/red_button_bg.png').convert_alpha()
 
         button_backgroundOrange = pygame.image.load('images/buttons/orange_button_bg.png').convert_alpha()
         button_backgroundBlue = pygame.image.load('images/buttons/blue_button_bg.png').convert_alpha()
-
+        button_backgroundYellow = pygame.image.load('images/buttons/yellow_button_bg.png').convert_alpha()
         # Button instances
         self.atack_button = ActionButton(850, 625, button_backgroundRed, 'Atack', hover_scale=1.08,scale = 1.50)
         self.potion_button = ActionButton(1150, 625, button_backgroundGreen, 'Potion', hover_scale=1.08, scale = 1.50)
 
-        #Botones de movimientos
+        #Buttons movens
         self.mov1_button = ActionButton(850, 595, button_backgroundOrange, self.player_pokemon.moves[0]['name'], hover_scale=1.08,scale = 1.2, fontTam = 22)
         self.mov2_button = ActionButton(850, 680, button_backgroundBlue, self.player_pokemon.moves[1]['name'], hover_scale=1.08, scale = 1.2, fontTam = 22)
         self.mov3_button = ActionButton(1150, 595, button_backgroundBlue, self.player_pokemon.moves[2]['name'], hover_scale=1.08, scale = 1.2, fontTam = 22)
         self.mov4_button = ActionButton(1150, 680, button_backgroundOrange, self.player_pokemon.moves[3]['name'], hover_scale=1.08, scale = 1.2, fontTam = 22)
         
-        #Cambiamos display
-        
+        #Buttons back, play again
+        self.playAgain = ActionButton(900, 200, button_backgroundYellow, "Play again", hover_scale=1.08,scale = 1.2, fontTam = 22)
+        self.exit = ActionButton(900, 400, button_backgroundYellow, "Exit", hover_scale=1.08, scale = 1.2, fontTam = 22 )
 
-    def loop(self, game_screen: pygame.Surface, pokemon_list, state: list[GameState], ban) -> None:
+    def loop(self, game_screen: pygame.Surface, pokemon_list, state: list[GameState], flag) -> None:
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 state[0] = GameState.LISTING
-            if event.type == KEYDOWN:
-
-                if event.key == K_y:
-                    self.player_pokemon.current_hp = 130
-                    self.rival_pokemon.current_hp = 130
-                    self.player_pokemon.num_potions = 3
-                    self.game_status = 'BattlePokemon'
-                elif event.key == K_n:
-                    #Change display
-                    self.ban = 0
-                    state[0] = GameState.LISTING
                     
         
         if self.game_status == 'BattlePokemon':
+            
             game_screen.blit(self.backGround,(0,0))
             game_screen.blit(self.backGroundBar,(0,550))
 
+            self.bandera = 0
+            self.player_pokemon.current_hp = 130
+            self.rival_pokemon.current_hp = 130
+            
             self.player_pokemon.x = 200
             self.player_pokemon.y = 300
             self.rival_pokemon.x = 850
@@ -113,7 +114,6 @@ class Combat():
             self.dataBox(game_screen)
             self.message = "Adios"
             self.game_status = 'player turn'
-            self.bandera == 0
 
         if self.game_status == 'player turn':
             game_screen.blit(self.backGround,(0,0))
@@ -144,7 +144,6 @@ class Combat():
                     self.bandera = 2
 
             if self.bandera == 2:
-                print("Entre a 2")
                 if self.rival_pokemon.current_hp == 0:
                     
                     self.game_status = 'fainted'
@@ -181,34 +180,43 @@ class Combat():
             
 
         if self.game_status == 'fainted':
-            
+            game_screen.blit(self.backGround,(0,0))
+            game_screen.blit(self.backGroundBar,(0,550))
+            self.dataBox(game_screen)
             alpha = 75
             while alpha > 0:
-                
-                game_screen.blit(self.backGround,(0,0))
-                game_screen.blit(self.backGroundBar,(0,550))
-                self.dataBox(game_screen)
-                
+
                 if self.rival_pokemon.current_hp == 0:
                     self.player_pokemon.draw(game_screen)
                     self.rival_pokemon.draw(game_screen,alpha,scale=220)
                     display_message(game_screen , f'{self.rival_pokemon.name} Derrotado!')
+                    self.winnerPokemon = self.player_pokemon
 
                 else:
                     self.player_pokemon.draw(game_screen,alpha)
                     self.rival_pokemon.draw(game_screen,scale=220)
                     display_message(game_screen ,f'{self.player_pokemon.name} Derrotado!')
+                    self.winnerPokemon = self.rival_pokemon
                 alpha -= .4
 
             self.game_status = 'gameover'
 
         if self.game_status == 'gameover':
+            game_screen.blit(self.winner,(0,0))
+            self.winnerPokemon.x = 250
+            self.winnerPokemon.y = 150
+            self.winnerPokemon.draw(game_screen)
+            if self.playAgain.draw(game_screen):
+                self.game_status = 'BattlePokemon'
+               
+            if self.exit.draw(game_screen):
+                state[0] = GameState.LISTING
+                self.game_status = 'BattlePokemon'
             
-            display_message(game_screen ,'Play again (Y/N)?')
         pygame.display.update()
 
     def dataBox(self,game_screen: pygame.Surface):
         game_screen.blit(self.bar,(250,75))
         game_screen.blit(self.bar,(800,400))
         self.player_pokemon.draw_hp(game_screen)
-        self.rival_pokemon.draw(game_screen,scale=220)
+        self.rival_pokemon.draw_hp(game_screen)
