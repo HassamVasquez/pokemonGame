@@ -84,56 +84,47 @@ class Combat():
                     self.ban = 0
                     state[0] = GameState.LISTING
                     
-
-            
+        
         if self.game_status == 'BattlePokemon':
             game_screen.blit(self.backGround,(0,0))
             game_screen.blit(self.backGroundBar,(0,550))
-            self.player_pokemon.x = 150
-            self.player_pokemon.y = 300
-            self.rival_pokemon.x = 800
-            self.rival_pokemon.y = 45
-            alpha = 0
-            while alpha < 100:
 
-                self.rival_pokemon.draw(game_screen,alpha,scale=220)
-                display_message(game_screen, f'The rival choose  {self.rival_pokemon.name}!')
-                alpha += .4
-                
-            alpha = 0
-            time.sleep(1)
-            game_screen.blit(self.backGroundBar,(0,550))
-            while alpha < 50:
-                self.rival_pokemon.draw(game_screen,scale=220)
-                self.player_pokemon.draw(game_screen,alpha)
-                display_message(game_screen , f'Go {self.player_pokemon.name}!')
-                alpha += .4
-            time.sleep(1)
+            self.player_pokemon.x = 200
+            self.player_pokemon.y = 300
+            self.rival_pokemon.x = 850
+            self.rival_pokemon.y = 100
+
+            self.rival_pokemon.draw(game_screen,scale=220)
+            display_message(game_screen, f'The rival choose  {self.rival_pokemon.name}!')
+            time.sleep(2)
             
-            game_screen.blit(self.bar,(250,75))
-            game_screen.blit(self.bar,(800,400))
+            game_screen.blit(self.backGroundBar,(0,550))
+
+            self.rival_pokemon.draw(game_screen,scale=220)
+            self.player_pokemon.draw(game_screen)
+            display_message(game_screen , f'Go {self.player_pokemon.name}!')
+            time.sleep(2)
 
             self.player_pokemon.hp_x = 850
             self.player_pokemon.hp_y = 435
             self.rival_pokemon.hp_x = 320
             self.rival_pokemon.hp_y = 110
 
-            self.player_pokemon.draw_hp(game_screen)
-            self.rival_pokemon.draw(game_screen,scale=220)
-            
+            self.dataBox(game_screen)
+            self.message = "Adios"
             self.game_status = 'player turn'
             self.bandera == 0
 
         if self.game_status == 'player turn':
             game_screen.blit(self.backGround,(0,0))
             game_screen.blit(self.backGroundBar,(0,550))
-            game_screen.blit(self.bar,(250,75))
-            game_screen.blit(self.bar,(800,400))
+
+            self.dataBox(game_screen)
 
             drawBatlle(self.player_pokemon,self.rival_pokemon,game_screen)
-            display_message(game_screen, "Choose your action")
             
             if self.bandera == 0:
+                display_message(game_screen, "Choose your action")
                 if self.atack_button.draw(game_screen):
                     self.bandera = 1
                 if self.potion_button.draw(game_screen):
@@ -153,6 +144,7 @@ class Combat():
                     self.bandera = 2
 
             if self.bandera == 2:
+                print("Entre a 2")
                 if self.rival_pokemon.current_hp == 0:
                     
                     self.game_status = 'fainted'
@@ -162,10 +154,12 @@ class Combat():
             if self.bandera == 3:
                 if self.player_pokemon.num_potions == 0:
                         display_message(game_screen ,'No more potions left')
+                        time.sleep(2)
                         self.bandera = 1
                 else:
                     self.player_pokemon.use_potion()
                     display_message(game_screen ,f'{self.player_pokemon.name} used potion')
+                    time.sleep(2)
                     self.game_status = 'rival turn'
                     self.bandera = 2
             #pygame.draw.rect(game_screen, COLOURS.BLACK, (10, 350, 480, 140), 3)
@@ -173,11 +167,9 @@ class Combat():
         if self.game_status == 'rival turn':
             game_screen.blit(self.backGround,(0,0))
             game_screen.blit(self.backGroundBar,(0,550))
-            game_screen.blit(self.bar,(250,75))
-            game_screen.blit(self.bar,(800,400))
+            self.dataBox(game_screen)
 
             drawBatlle(self.player_pokemon,self.rival_pokemon,game_screen)
-            
             
             move = random.choice(self.rival_pokemon.moves)
             self.rival_pokemon.perform_attack(self.player_pokemon, move, self.rival_pokemon,0)
@@ -195,28 +187,28 @@ class Combat():
                 
                 game_screen.blit(self.backGround,(0,0))
                 game_screen.blit(self.backGroundBar,(0,550))
-                game_screen.blit(self.bar,(250,75))
-                game_screen.blit(self.bar,(800,400))
-                self.player_pokemon.draw_hp(game_screen)
-                self.rival_pokemon.draw(game_screen,scale=220)
+                self.dataBox(game_screen)
                 
-
                 if self.rival_pokemon.current_hp == 0:
                     self.player_pokemon.draw(game_screen)
                     self.rival_pokemon.draw(game_screen,alpha,scale=220)
                     display_message(game_screen , f'{self.rival_pokemon.name} Derrotado!')
-                    
+
                 else:
                     self.player_pokemon.draw(game_screen,alpha)
                     self.rival_pokemon.draw(game_screen,scale=220)
                     display_message(game_screen ,f'{self.player_pokemon.name} Derrotado!')
                 alpha -= .4
-                
-                
-                
+
             self.game_status = 'gameover'
 
         if self.game_status == 'gameover':
             
             display_message(game_screen ,'Play again (Y/N)?')
         pygame.display.update()
+
+    def dataBox(self,game_screen: pygame.Surface):
+        game_screen.blit(self.bar,(250,75))
+        game_screen.blit(self.bar,(800,400))
+        self.player_pokemon.draw_hp(game_screen)
+        self.rival_pokemon.draw(game_screen,scale=220)

@@ -42,8 +42,10 @@ class PokemonCombat(pygame.sprite.Sprite):
         self.gameScreen= gameScreen
         self.hp_x = 0
         self.hp_y = 0
+        self.message = ""
         self.set_sprite()
-    
+
+
     def set_sprite(self):
         self.image = pygame.image.load(self.route)
         scale = self.size/self.image.get_width()
@@ -100,13 +102,14 @@ class PokemonCombat(pygame.sprite.Sprite):
             self.moves = random.sample(self.moves, 4)
 
     def perform_attack(self, rival, move,me,band):
+        
         if band == 1:
             drawBatlle(me,rival,self.gameScreen)
         elif band ==0 :
             drawBatlle(rival,me,self.gameScreen)
         name = move['name']
         display_message(self.gameScreen,f'{self.name} used {name}')
-        
+        time.sleep(2)
         damage = move['atack']
 
         damage = math.floor(damage)

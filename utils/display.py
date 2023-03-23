@@ -1,5 +1,5 @@
 import pygame
-
+import time
 
 from definitions import colours as COLOURS
 
@@ -36,6 +36,8 @@ def display_message(game_screen: pygame.Surface, message):
     text_rect.y = 625
     game_screen.blit(text, text_rect)
     pygame.display.update()
+    
+
 
 def drawBatlle(player_pokemon,rival_pokemon,game_screen: pygame.Surface ):
         player_pokemon.draw(game_screen)
