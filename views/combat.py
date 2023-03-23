@@ -28,24 +28,22 @@ class Combat():
         self.bandera = 0
 
         #Background
-        self.backGround = pygame.image.load("images/combat/green.png")
+        ran = str(random.randint(1, 18))
+        self.backGround = pygame.image.load("images/combat/backGround/"+ran+".png")
         self.backGround = pygame.transform.scale(self.backGround, (1280, 550))
         game_screen.blit(self.backGround,(0,0))
 
         #Backgraund bar
-        self.backGroundBar = pygame.image.load("images/combat/bar.jpg")
+        self.backGroundBar = pygame.image.load("images/combat/bar.png")
         self.backGroundBar = pygame.transform.scale(self.backGroundBar, (1280, 170))
         game_screen.blit(self.backGroundBar,(0,550))
 
         #HpBar
-        self.hp = pygame.image.load("images/combat/chat2.png")
-        self.hp = pygame.transform.scale(self.hp, (400, 110))
+        self.bar = pygame.image.load("images/combat/bar.png")
+        self.bar = pygame.transform.scale(self.bar, (400, 110))
 
-        self.hp2 = pygame.image.load("images/combat/chat.png")
-        self.hp2 = pygame.transform.scale(self.hp2, (400, 110))
-
-        game_screen.blit(self.hp,(250,75))
-        game_screen.blit(self.hp2,(800,400))
+        game_screen.blit(self.bar,(250,75))
+        game_screen.blit(self.bar,(800,400))
 
         #moves
         self.player_pokemon.set_moves()
@@ -99,18 +97,21 @@ class Combat():
             while alpha < 100:
 
                 self.rival_pokemon.draw(game_screen,alpha,scale=220)
-                display_message(game_screen, f'El rival eligio a  {self.rival_pokemon.name}!')
+                display_message(game_screen, f'The rival choose  {self.rival_pokemon.name}!')
                 alpha += .4
                 
             alpha = 0
+            time.sleep(1)
+            game_screen.blit(self.backGroundBar,(0,550))
             while alpha < 50:
                 self.rival_pokemon.draw(game_screen,scale=220)
                 self.player_pokemon.draw(game_screen,alpha)
-                display_message(game_screen , f'Ve {self.player_pokemon.name}!')
+                display_message(game_screen , f'Go {self.player_pokemon.name}!')
                 alpha += .4
+            time.sleep(1)
             
-            game_screen.blit(self.hp,(250,75))
-            game_screen.blit(self.hp2,(800,400))
+            game_screen.blit(self.bar,(250,75))
+            game_screen.blit(self.bar,(800,400))
 
             self.player_pokemon.hp_x = 850
             self.player_pokemon.hp_y = 435
@@ -126,10 +127,11 @@ class Combat():
         if self.game_status == 'player turn':
             game_screen.blit(self.backGround,(0,0))
             game_screen.blit(self.backGroundBar,(0,550))
-            game_screen.blit(self.hp,(250,75))
-            game_screen.blit(self.hp2,(800,400))
+            game_screen.blit(self.bar,(250,75))
+            game_screen.blit(self.bar,(800,400))
 
             drawBatlle(self.player_pokemon,self.rival_pokemon,game_screen)
+            display_message(game_screen, "Choose your action")
             if self.bandera == 0:
                 if self.atack_button.draw(game_screen):
                     self.bandera = 1
@@ -170,8 +172,8 @@ class Combat():
         if self.game_status == 'rival turn':
             game_screen.blit(self.backGround,(0,0))
             game_screen.blit(self.backGroundBar,(0,550))
-            game_screen.blit(self.hp,(250,75))
-            game_screen.blit(self.hp2,(800,400))
+            game_screen.blit(self.bar,(250,75))
+            game_screen.blit(self.bar,(800,400))
 
             drawBatlle(self.player_pokemon,self.rival_pokemon,game_screen)
             
@@ -192,8 +194,8 @@ class Combat():
                 
                 game_screen.blit(self.backGround,(0,0))
                 game_screen.blit(self.backGroundBar,(0,550))
-                game_screen.blit(self.hp,(250,75))
-                game_screen.blit(self.hp2,(800,400))
+                game_screen.blit(self.bar,(250,75))
+                game_screen.blit(self.bar,(800,400))
                 self.player_pokemon.draw_hp(game_screen)
                 self.rival_pokemon.draw(game_screen,scale=220)
                 
