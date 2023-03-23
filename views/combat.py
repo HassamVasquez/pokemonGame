@@ -132,6 +132,7 @@ class Combat():
 
             drawBatlle(self.player_pokemon,self.rival_pokemon,game_screen)
             display_message(game_screen, "Choose your action")
+            
             if self.bandera == 0:
                 if self.atack_button.draw(game_screen):
                     self.bandera = 1
