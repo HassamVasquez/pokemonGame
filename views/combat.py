@@ -151,6 +151,7 @@ class Combat():
                     self.game_status = 'rival turn'
             
             if self.bandera == 3:
+                game_screen.blit(self.backGroundBar,(0,550))
                 if self.player_pokemon.num_potions == 0:
                         display_message(game_screen ,'No more potions left')
                         time.sleep(2)
