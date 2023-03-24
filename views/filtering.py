@@ -54,12 +54,12 @@ class FilteringView():
      self.tierra_btn = ActionButton(525, 270, tiera_img, '', hover_scale=1.08,scale=0.4,changeBgOnDisabled=False)
      self.veneno_btn = ActionButton(635, 270, veneno_img, '', hover_scale=1.08,scale=0.4,changeBgOnDisabled=False)
      self.volador_btn = ActionButton(745, 270, volador_img, '', hover_scale=1.08,scale=0.4,changeBgOnDisabled=False)
-     self.primera_gen_btn = ActionButton(103, 450, primera_gen_img, '', hover_scale=1.08,scale=0.9,changeBgOnDisabled=False)
-     self.segunda_gen_btn = ActionButton(318, 450, segunda_gen_img, '', hover_scale=1.08,scale=0.9,changeBgOnDisabled=False)
-     self.tercera_gen_btn = ActionButton(533, 450, tercera_gen_img, '', hover_scale=1.08,scale=0.8,changeBgOnDisabled=False)
-     self.cuarta_gen_btn = ActionButton(748, 450, cuarta_gen_img, '', hover_scale=1.08,scale=0.8,changeBgOnDisabled=False)
-     self.quinta_gen_btn = ActionButton(963, 450, quinta_gen_img, '', hover_scale=1.08,scale=0.8,changeBgOnDisabled=False)
-     self.sexta_gen_btn = ActionButton(1178, 450, sexta_gen_img, '', hover_scale=1.08,scale=0.8,changeBgOnDisabled=False)
+     self.primera_gen_btn = ActionButton(103, 450, primera_gen_img, '', hover_scale=1.08,scale=0.7,changeBgOnDisabled=False)
+     self.segunda_gen_btn = ActionButton(318, 450, segunda_gen_img, '', hover_scale=1.08,scale=0.7,changeBgOnDisabled=False)
+     self.tercera_gen_btn = ActionButton(533, 450, tercera_gen_img, '', hover_scale=1.08,scale=0.7,changeBgOnDisabled=False)
+     self.cuarta_gen_btn = ActionButton(748, 450, cuarta_gen_img, '', hover_scale=1.08,scale=0.7,changeBgOnDisabled=False)
+     self.quinta_gen_btn = ActionButton(963, 450, quinta_gen_img, '', hover_scale=1.08,scale=0.7,changeBgOnDisabled=False)
+     self.sexta_gen_btn = ActionButton(1178, 450, sexta_gen_img, '', hover_scale=1.08,scale=0.7,changeBgOnDisabled=False)
      self.back_button = ActionButton(420, 675, button_bg_orange, 'BACK', 1.2, 1.08)
      self.clean_btn = ActionButton(640, 675, button_bg_blue, 'CLEAN', hover_scale=1.08,scale=1.2)
      self.filter_btn = ActionButton(860, 675, button_bg_red, 'FILTER', hover_scale=1.08,scale=1.2)
@@ -75,11 +75,11 @@ class FilteringView():
     def loop(self, screen: pygame.Surface, pokemon_list_filtered:list[Pokemon], pokemon_list:list[Pokemon], state: list[GameState], listingView: ListingView) -> None:
         types,generations=' '.join(self.filter_list['type']),' '.join(self.filter_list['gen'])
         filters = self.selec_filt.render(f'Selected Filters: ', True, COLOURS.BLACK)
-        screen.blit(filters, (470, 540))
+        screen.blit(filters, (490, 515))
         filters = self.selec_filt.render(f'Types: {types}', True, COLOURS.BLACK)
-        screen.blit(filters, (470, 565))
+        screen.blit(filters, (490, 550))
         filters = self.selec_filt.render(f'Generations: {generations}', True, COLOURS.BLACK)
-        screen.blit(filters, (470, 590))
+        screen.blit(filters, (490, 585))
         mesage = self.msg.render(f'Pokemon Types: ', True, COLOURS.BLACK)
         screen.blit(mesage, (20, 20))
         mesage = self.msg.render(f'Pokemon Generations: ', True, COLOURS.BLACK)
@@ -161,7 +161,6 @@ class FilteringView():
           "type": [],
           "gen":[],
           }
-          print(self.filter_list)
 
         if self.filter_btn.draw(screen):
           pokemon_list_filtered.clear()
