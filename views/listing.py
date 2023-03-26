@@ -56,7 +56,7 @@ class ListingView():
 
         # Figth Button
         button_bg_red = pygame.image.load('images/buttons/red_button_bg.png').convert_alpha()
-        self.fight_button = ActionButton(640, 676, button_bg_red, 'FIGTH', hover_scale=1.08)
+        self.fight_button = ActionButton(640, 676, button_bg_red, 'FIGHT', hover_scale=1.08)
 
 
         # POKEMON DETAILS
