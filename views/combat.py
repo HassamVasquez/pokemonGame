@@ -79,6 +79,9 @@ class Combat():
         self.playAgain = ActionButton(900, 200, button_backgroundYellow, "Play again", hover_scale=1.08,scale = 1.2, fontTam = 22)
         self.exit = ActionButton(900, 400, button_backgroundYellow, "Exit", hover_scale=1.08, scale = 1.2, fontTam = 22 )
 
+        #Button next battle
+        self.nextBattle = ActionButton(900, 300, button_backgroundYellow, "Next battle", hover_scale=1.08,scale = 1.2, fontTam = 22)
+
     def loop(self, game_screen: pygame.Surface, state: list[GameState], flagTeam: list[TeamBattle], numPokemon = 1) -> None:
         
         for event in pygame.event.get():
@@ -116,7 +119,6 @@ class Combat():
             self.rival_pokemon.hp_y = 115
 
             self.dataBox(game_screen, numPokemon)
-            self.message = "Adios"
             self.game_status = 'player turn'
 
         if self.game_status == 'player turn':
@@ -149,10 +151,7 @@ class Combat():
 
             if self.bandera == 2:
                 if self.rival_pokemon.current_hp == 0:
-                    if numPokemon > 1 :
-                        flagTeam[0] = TeamBattle.DEFINITIONS
-                    else: 
-                        self.game_status = 'fainted'
+                    self.game_status = 'fainted'
                 else:
                     self.game_status = 'rival turn'
             
@@ -180,10 +179,7 @@ class Combat():
             move = random.choice(self.rival_pokemon.moves)
             self.rival_pokemon.perform_attack(self.player_pokemon, move, self.rival_pokemon,0)
             if self.player_pokemon.current_hp == 0:
-                if numPokemon > 1 :
-                        flagTeam[0] = TeamBattle.DEFINITIONS
-                else: 
-                    self.game_status = 'fainted'
+                self.game_status = 'fainted'
             else:
                 self.game_status = 'player turn'
                 self.bandera = 0
@@ -208,8 +204,11 @@ class Combat():
                     display_message(game_screen ,f'{self.player_pokemon.name} Derrotado!')
                     self.winnerPokemon = self.rival_pokemon
                 alpha -= .4
+            if numPokemon > 1 :
+                self.game_status = 'gameoverTeam'
 
-            self.game_status = 'gameover'
+            else: 
+                self.game_status = 'gameover'
 
         if self.game_status == 'gameover':
             game_screen.blit(self.winner,(0,0))
@@ -222,7 +221,16 @@ class Combat():
             if self.exit.draw(game_screen):
                 state[0] = GameState.LISTING
                 self.game_status = 'BattlePokemon'
-            
+        
+        if self.game_status == 'gameoverTeam':
+            game_screen.blit(self.winner,(0,0))
+            self.winnerPokemon.x = 250
+            self.winnerPokemon.y = 150
+            self.winnerPokemon.draw(game_screen)
+            if self.nextBattle.draw(game_screen):
+                flagTeam[0] = TeamBattle.DEFINITIONS
+                #
+
         pygame.display.update()
 
     def dataBox(self,game_screen: pygame.Surface, numPokemon = 1 ,):
