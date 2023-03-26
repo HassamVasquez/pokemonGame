@@ -27,6 +27,9 @@ class Combat():
         self.move_buttons = []
         self.move = 0
         self.bandera = 0
+        self.aux = 0
+        #Points
+
 
         #Background
         ran = str(random.randint(1, 18))
@@ -51,8 +54,20 @@ class Combat():
         self.pokeball = pygame.image.load("images/combat/pokeball.png")
         self.pokeball = pygame.transform.scale(self.pokeball, (50, 50))
 
-        game_screen.blit(self.bar,(250,75))
-        game_screen.blit(self.bar,(800,400))
+        #Player and rival
+        self.rival_image = pygame.image.load("images/combat/rival.png")
+        self.player_image = pygame.image.load("images/combat/player.png")
+
+        self.rival_image = pygame.transform.scale(self.rival_image, (150, 400))
+        self.player_image = pygame.transform.scale(self.player_image, (150, 300))
+
+        #Message congrats
+        self.winlogo2 = pygame.image.load("images/combat/winnerLogo2.png")
+
+        self.winlogo2 = pygame.transform.scale(self.winlogo2, (300, 300))
+
+        #game_screen.blit(self.bar,(250,75))
+        #game_screen.blit(self.bar,(800,400))
 
         #moves
         self.player_pokemon.set_moves()
@@ -65,15 +80,16 @@ class Combat():
         button_backgroundOrange = pygame.image.load('images/buttons/orange_button_bg.png').convert_alpha()
         button_backgroundBlue = pygame.image.load('images/buttons/blue_button_bg.png').convert_alpha()
         button_backgroundYellow = pygame.image.load('images/buttons/yellow_button_bg.png').convert_alpha()
+
         # Button instances
         self.atack_button = ActionButton(850, 625, button_backgroundRed, 'Attack', hover_scale=1.08,scale = 1.50)
         self.potion_button = ActionButton(1150, 625, button_backgroundGreen, 'Potion', hover_scale=1.08, scale = 1.50)
 
         #Buttons movens
-        self.mov1_button = ActionButton(850, 595, button_backgroundOrange, self.player_pokemon.moves[0]['name'], hover_scale=1.08,scale = 1.2, fontTam = 22)
-        self.mov2_button = ActionButton(850, 680, button_backgroundBlue, self.player_pokemon.moves[1]['name'], hover_scale=1.08, scale = 1.2, fontTam = 22)
-        self.mov3_button = ActionButton(1150, 595, button_backgroundBlue, self.player_pokemon.moves[2]['name'], hover_scale=1.08, scale = 1.2, fontTam = 22)
-        self.mov4_button = ActionButton(1150, 680, button_backgroundOrange, self.player_pokemon.moves[3]['name'], hover_scale=1.08, scale = 1.2, fontTam = 22)
+        self.mov1_button = ActionButton(900, 600, button_backgroundOrange, self.player_pokemon.moves[0]['name'], hover_scale=1.08,scale = 1.0, fontTam = 20)
+        self.mov2_button = ActionButton(900, 665, button_backgroundBlue, self.player_pokemon.moves[1]['name'], hover_scale=1.08, scale = 1.0, fontTam = 20)
+        self.mov3_button = ActionButton(1100, 600, button_backgroundBlue, self.player_pokemon.moves[2]['name'], hover_scale=1.08, scale = 1.0, fontTam = 20)
+        self.mov4_button = ActionButton(1100, 665, button_backgroundOrange, self.player_pokemon.moves[3]['name'], hover_scale=1.08, scale = 1.0, fontTam = 20)
         
         #Buttons back, play again
         self.playAgain = ActionButton(900, 200, button_backgroundYellow, "Play again", hover_scale=1.08,scale = 1.2, fontTam = 22)
@@ -82,7 +98,7 @@ class Combat():
         #Button next battle
         self.nextBattle = ActionButton(900, 300, button_backgroundYellow, "Next battle", hover_scale=1.08,scale = 1.2, fontTam = 22)
 
-    def loop(self, game_screen: pygame.Surface, state: list[GameState], flagTeam: list[TeamBattle], numPokemon = 1) -> None:
+    def loop(self, game_screen: pygame.Surface, state: list[GameState], flagTeam: list[TeamBattle], numPokemon = 1,points = []) -> None:
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -195,55 +211,79 @@ class Combat():
                 if self.rival_pokemon.current_hp == 0:
                     self.player_pokemon.draw(game_screen)
                     self.rival_pokemon.draw(game_screen,alpha,scale=220)
-                    display_message(game_screen , f'{self.rival_pokemon.name} Derrotado!')
+                    display_message(game_screen , f'{self.rival_pokemon.name} Defeat!')
                     self.winnerPokemon = self.player_pokemon
 
                 else:
                     self.player_pokemon.draw(game_screen,alpha)
                     self.rival_pokemon.draw(game_screen,scale=220)
-                    display_message(game_screen ,f'{self.player_pokemon.name} Derrotado!')
+                    display_message(game_screen ,f'{self.player_pokemon.name} Defeat!')
                     self.winnerPokemon = self.rival_pokemon
                 alpha -= .4
-            if numPokemon > 1 :
+            if numPokemon > 1 or state[0] == GameState.TEAM_BATTLE:
                 self.game_status = 'gameoverTeam'
 
-            else: 
+            else :  
                 self.game_status = 'gameover'
 
         if self.game_status == 'gameover':
+        
             game_screen.blit(self.winner,(0,0))
             self.winnerPokemon.x = 250
             self.winnerPokemon.y = 150
             self.winnerPokemon.draw(game_screen)
             if self.playAgain.draw(game_screen):
                 self.game_status = 'BattlePokemon'
-               
+            
             if self.exit.draw(game_screen):
                 state[0] = GameState.LISTING
                 self.game_status = 'BattlePokemon'
         
         if self.game_status == 'gameoverTeam':
-            game_screen.blit(self.winner,(0,0))
-            self.winnerPokemon.x = 250
-            self.winnerPokemon.y = 150
-            self.winnerPokemon.draw(game_screen)
-            if self.nextBattle.draw(game_screen):
-                flagTeam[0] = TeamBattle.DEFINITIONS
-                #
+            
+            if self.rival_pokemon.current_hp == 0 and self.aux == 0:
+                points[0] = points[0] + 1
+                self.aux = 1
+            elif self.player_pokemon.current_hp == 0 and self.aux == 0: 
+                points[1] = points[1] + 1
+                self.aux = 1
+            
+            if numPokemon == 1:
+                print(points)
+                game_screen.blit(self.winner,(0,0))
+                if points[0] >= 2:
+                    game_screen.blit(self.player_image,(300,150))
+                    game_screen.blit(self.winlogo2,(750,50))
+
+                elif points[1] >= 2:
+                    game_screen.blit(self.rival_image,(300,150))
+                    game_screen.blit(self.winlogo2,(750,50))
+                if self.exit.draw(game_screen):
+                    state[0] = GameState.LISTING
+                    self.game_status = 'BattlePokemon'
+            else:
+                game_screen.blit(self.winner,(0,0))
+                self.winnerPokemon.x = 250
+                self.winnerPokemon.y = 150
+                self.winnerPokemon.draw(game_screen)
+                if self.nextBattle.draw(game_screen):
+                    self.aux = 1
+                    flagTeam[0] = TeamBattle.DEFINITIONS
+            
 
         pygame.display.update()
 
     def dataBox(self,game_screen: pygame.Surface, numPokemon = 1 ,):
         game_screen.blit(self.bar,(250,75))
         game_screen.blit(self.bar,(800,400))
-        x = 1050
+        x = 1150
         for i in range(numPokemon):
             game_screen.blit(self.pokeball,(x,355))
-            x = x + 50
-        x = 500
+            x = x - 50
+        x = 600
         for i in range(numPokemon):
             game_screen.blit(self.pokeball,(x,30))
-            x = x + 50
+            x = x - 50
 
         self.display_message_box(game_screen ,f'{self.player_pokemon.name}', 830,  420)
         self.display_message_box(game_screen ,f'{self.rival_pokemon.name}', 280,  95)

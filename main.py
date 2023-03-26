@@ -40,7 +40,7 @@ pokemon_list_combat = []
 flag = bool
 flag = True
 flagTeam : list[TeamBattle] = [TeamBattle.DEFINITIONS]
-
+points = [0,0]
 
 i = 0
 numPokes = 3
@@ -63,7 +63,7 @@ while running:
             flag = True
             flagTeam[0] = TeamBattle.DEFINITIONS
             numPokes = 4
-            i = 0
+            i, points[0], points[1] = 0, 0, 0
             listingView.loop(game_screen, filtered_pokemon_list, selected_pokemon_list, state)
 
         case GameState.FILTERING:
@@ -81,7 +81,7 @@ while running:
                 comb = Combat(pokemon_list_combat,game_screen)
                 flag = 0
             else:
-                comb.loop(game_screen, state,flagTeam,numPokes)
+                comb.loop(game_screen, state,flagTeam,1)
 
         case GameState.TEAM_BATTLE:
             # combat View
@@ -95,9 +95,9 @@ while running:
                     flagTeam[0] = TeamBattle.BATTLE
                     i  = i + 1
                     numPokes = numPokes - 1
-                
+
                 case TeamBattle.BATTLE:
-                    comb.loop(game_screen, state, flagTeam, numPokes)
+                    comb.loop(game_screen, state, flagTeam, numPokes,points)
         # other views
 
     # Event handler
