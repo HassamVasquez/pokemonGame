@@ -9,6 +9,7 @@ from classes.action_button import ActionButton
 
 import definitions.colours as COLOURS
 from definitions.game_state import GameState
+from definitions.team_battle import TeamBattle
 
 from utils.display import changeTamDisplay
 from utils.display import create_button
@@ -46,6 +47,10 @@ class Combat():
         self.bar = pygame.image.load("images/combat/bar.png")
         self.bar = pygame.transform.scale(self.bar, (400, 110))
 
+        #Pokeball
+        self.pokeball = pygame.image.load("images/combat/pokeball.png")
+        self.pokeball = pygame.transform.scale(self.pokeball, (50, 50))
+
         game_screen.blit(self.bar,(250,75))
         game_screen.blit(self.bar,(800,400))
 
@@ -61,7 +66,7 @@ class Combat():
         button_backgroundBlue = pygame.image.load('images/buttons/blue_button_bg.png').convert_alpha()
         button_backgroundYellow = pygame.image.load('images/buttons/yellow_button_bg.png').convert_alpha()
         # Button instances
-        self.atack_button = ActionButton(850, 625, button_backgroundRed, 'Atack', hover_scale=1.08,scale = 1.50)
+        self.atack_button = ActionButton(850, 625, button_backgroundRed, 'Attack', hover_scale=1.08,scale = 1.50)
         self.potion_button = ActionButton(1150, 625, button_backgroundGreen, 'Potion', hover_scale=1.08, scale = 1.50)
 
         #Buttons movens
@@ -74,12 +79,11 @@ class Combat():
         self.playAgain = ActionButton(900, 200, button_backgroundYellow, "Play again", hover_scale=1.08,scale = 1.2, fontTam = 22)
         self.exit = ActionButton(900, 400, button_backgroundYellow, "Exit", hover_scale=1.08, scale = 1.2, fontTam = 22 )
 
-    def loop(self, game_screen: pygame.Surface, pokemon_list, state: list[GameState], flag) -> None:
+    def loop(self, game_screen: pygame.Surface, state: list[GameState], flagTeam: list[TeamBattle], numPokemon = 1) -> None:
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 state[0] = GameState.LISTING
-                    
         
         if self.game_status == 'BattlePokemon':
             
@@ -106,12 +110,12 @@ class Combat():
             display_message(game_screen , f'Go {self.player_pokemon.name}!')
             time.sleep(2)
 
-            self.player_pokemon.hp_x = 850
-            self.player_pokemon.hp_y = 435
-            self.rival_pokemon.hp_x = 320
-            self.rival_pokemon.hp_y = 110
+            self.player_pokemon.hp_x = 1000
+            self.player_pokemon.hp_y = 440
+            self.rival_pokemon.hp_x = 450
+            self.rival_pokemon.hp_y = 115
 
-            self.dataBox(game_screen)
+            self.dataBox(game_screen, numPokemon)
             self.message = "Adios"
             self.game_status = 'player turn'
 
@@ -119,12 +123,12 @@ class Combat():
             game_screen.blit(self.backGround,(0,0))
             game_screen.blit(self.backGroundBar,(0,550))
 
-            self.dataBox(game_screen)
+            self.dataBox(game_screen, numPokemon)
 
             drawBatlle(self.player_pokemon,self.rival_pokemon,game_screen)
             
             if self.bandera == 0:
-                display_message(game_screen, "Choose your action")
+                self.display_message_box(game_screen, "Choose your action",100, 625 )
                 if self.atack_button.draw(game_screen):
                     self.bandera = 1
                 if self.potion_button.draw(game_screen):
@@ -145,8 +149,10 @@ class Combat():
 
             if self.bandera == 2:
                 if self.rival_pokemon.current_hp == 0:
-                    
-                    self.game_status = 'fainted'
+                    if numPokemon > 1 :
+                        flagTeam[0] = TeamBattle.DEFINITIONS
+                    else: 
+                        self.game_status = 'fainted'
                 else:
                     self.game_status = 'rival turn'
             
@@ -167,14 +173,17 @@ class Combat():
         if self.game_status == 'rival turn':
             game_screen.blit(self.backGround,(0,0))
             game_screen.blit(self.backGroundBar,(0,550))
-            self.dataBox(game_screen)
+            self.dataBox(game_screen, numPokemon)
 
             drawBatlle(self.player_pokemon,self.rival_pokemon,game_screen)
             
             move = random.choice(self.rival_pokemon.moves)
             self.rival_pokemon.perform_attack(self.player_pokemon, move, self.rival_pokemon,0)
             if self.player_pokemon.current_hp == 0:
-                self.game_status = 'fainted'
+                if numPokemon > 1 :
+                        flagTeam[0] = TeamBattle.DEFINITIONS
+                else: 
+                    self.game_status = 'fainted'
             else:
                 self.game_status = 'player turn'
                 self.bandera = 0
@@ -183,7 +192,7 @@ class Combat():
         if self.game_status == 'fainted':
             game_screen.blit(self.backGround,(0,0))
             game_screen.blit(self.backGroundBar,(0,550))
-            self.dataBox(game_screen)
+            self.dataBox(game_screen, numPokemon)
             alpha = 75
             while alpha > 0:
 
@@ -216,8 +225,27 @@ class Combat():
             
         pygame.display.update()
 
-    def dataBox(self,game_screen: pygame.Surface):
+    def dataBox(self,game_screen: pygame.Surface, numPokemon = 1 ,):
         game_screen.blit(self.bar,(250,75))
         game_screen.blit(self.bar,(800,400))
+        x = 1050
+        for i in range(numPokemon):
+            game_screen.blit(self.pokeball,(x,355))
+            x = x + 50
+        x = 500
+        for i in range(numPokemon):
+            game_screen.blit(self.pokeball,(x,30))
+            x = x + 50
+
+        self.display_message_box(game_screen ,f'{self.player_pokemon.name}', 830,  420)
+        self.display_message_box(game_screen ,f'{self.rival_pokemon.name}', 280,  95)
         self.player_pokemon.draw_hp(game_screen)
         self.rival_pokemon.draw_hp(game_screen)
+
+    def display_message_box(self,game_screen: pygame.Surface, message,x , y ):
+        font = pygame.font.Font(pygame.font.get_default_font(), 25)
+        text = font.render(message, True, COLOURS.BLACK)
+        text_rect = text.get_rect()
+        text_rect.x = x
+        text_rect.y = y
+        game_screen.blit(text, text_rect)

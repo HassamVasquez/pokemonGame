@@ -28,12 +28,12 @@ def create_button(width, height, left, top, text_cx, text_cy, label,game_screen)
     game_screen.blit(text, text_rect)
     
     return button
-def display_message(game_screen: pygame.Surface, message):
+def display_message(game_screen: pygame.Surface, message,x = 100, y = 625):
     font = pygame.font.Font(pygame.font.get_default_font(), 30)
     text = font.render(message, True, COLOURS.BLACK)
     text_rect = text.get_rect()
-    text_rect.x = 100
-    text_rect.y = 625
+    text_rect.x = x
+    text_rect.y = y
     game_screen.blit(text, text_rect)
     pygame.display.update()
     
