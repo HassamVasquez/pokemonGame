@@ -24,7 +24,7 @@ mov_veneno = [{'name': 'Cross Poison', 'atack': 45},{'name': 'Gunk Shot', 'atack
 mov_acero = [{'name': 'Meteor Mash', 'atack': 45},{'name': 'Smart Strike', 'atack': 40},{'name': 'Flash Cannon', 'atack': 30},{'name': 'Mirror Shot', 'atack': 10}]
 mov_normal = [{'name': 'Hyper Beam', 'atack': 45},{'name': 'Body Slam', 'atack': 40},{'name': 'Pound', 'atack': 30},{'name': 'Last Resort', 'atack': 10}]
 mov_volador = [{'name': 'Sky Attack', 'atack': 45},{'name': 'Brave Bird', 'atack': 40},{'name': 'Hurricane', 'atack': 30},{'name': 'Dragon Ascent', 'atack': 10}]
-mov_bicho = [{'name': 'Picadura', 'atack': 45},{'name': 'Plancha', 'atack': 40},{'name': 'Zuumbido', 'atack': 30},{'name': 'Acoso', 'atack': 10}]
+mov_bicho = [{'name': 'Bug Bite', 'atack': 45},{'name': 'Lunge', 'atack': 40},{'name': 'Bug Buzz', 'atack': 30},{'name': 'Infestation', 'atack': 10}]
 mov_agua = [{'name': 'Hydro Pump', 'atack': 45},{'name': 'Water Pulse', 'atack': 40},{'name': 'Aqua Tail', 'atack': 30},{'name': 'Water Gun', 'atack': 10}]
 mov_hielo = [{'name': 'Weather Ball', 'atack': 45},{'name': 'Blizzard', 'atack': 40},{'name': 'Ice Beam', 'atack': 30},{'name': 'Ice Punch', 'atack': 10}]
 mov_dragon = [{'name': 'Outrage', 'atack': 100},{'name': 'Draco Meteor', 'atack': 40},{'name': 'Dragon Claw', 'atack': 30},{'name': 'Dragon Tail', 'atack': 10}]
@@ -78,7 +78,7 @@ class PokemonCombat(pygame.sprite.Sprite):
     
     def set_moves(self):
         self.moves = []
-        if self.name == 'Magikarp': self.moves = [{'name': 'Salpicar ', 'atack': 1}]
+        if self.name == 'Magikarp': self.moves = [{'name': 'Water Spout ', 'atack': 1}]
         elif self.type == 'Grass': self.moves = mov_plant  
         elif self.type == 'Bug': self.moves = mov_bicho
         elif self.type == 'Dark': self.moves = mov_siniestro
